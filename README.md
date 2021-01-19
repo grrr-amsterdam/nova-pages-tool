@@ -18,6 +18,17 @@ After installation, run the migrations:
 php artisan migrate
 ```
 
+And register the tool in your `NovaServiceProvider`:
+
+```php
+use use Grrr\Pages\PagesTool;
+
+public function tools(): array
+{
+    return [new PagesTool()];
+}
+```
+
 ## Usage and extension
 
 Out of the box you will get a Pages tool in your Nova back-end to manage pages. If everything is to your liking, you can just start using it as-is!

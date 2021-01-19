@@ -1,0 +1,63 @@
+name: CI
+
+on:
+  push:
+
+jobs:
+  tests:
+    name: Tests
+    runs-on: ubuntu-18.04
+    strategy:
+      matrix:
+        operating-system: ["ubuntu-latest"]
+        php-versions: ["7.3", "7.4", "8"]
+
+    steps:
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-versions }}
+
+      - uses: actions/checkout@v2
+
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Validate Composer files
+        run: composer validate --ansi
+
+      - name: Install PHP dependencies
+        run: |
+          composer config http-basic.nova.laravel.com ${{ secrets.NOVA_USERNAME }} ${{ secrets.NOVA_PASSWORD }}
+          composer install --prefer-dist --no-interaction --ansi
+
+      - name: Run PHP tests
+        run: composer test
+
+      - name: Upload logs
+        uses: actions/upload-artifact@v2
+        if: failure()
+        with:
+          name: Laravel logs
+          path: storage/logs/laravel.log
+
+  prettier:
+    name: Code style
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/setup-node@v1
+        with:
+          node-version: "12.x"
+
+      - uses: actions/checkout@v2
+
+      - run: npm install
+
+      - run: npx prettier --check .

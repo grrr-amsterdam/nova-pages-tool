@@ -1,6 +1,6 @@
 {
-  "name": "grrr/pages",
-  "description": "A Laravel Nova tool.",
+  "name": "grrr-amsterdam/nova-pages-tool",
+  "description": "A Laravel Nova Tool to manage pages.",
   "keywords": [
     "laravel",
     "nova"

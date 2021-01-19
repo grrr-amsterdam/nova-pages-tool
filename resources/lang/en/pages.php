@@ -9,7 +9,7 @@ return [
     */
 
     'label' => 'Pages',
-    'singularLabel' => 'Pagina',
+    'singularLabel' => 'Page',
     'fields' => [
         'title' => 'Title',
         'url' => 'Url',

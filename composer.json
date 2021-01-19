@@ -1,0 +1,51 @@
+{
+  "name": "grrr/pages",
+  "description": "A Laravel Nova tool.",
+  "keywords": [
+    "laravel",
+    "nova"
+  ],
+  "license": "MIT",
+  "require": {
+    "php": ">=7.1.0",
+    "axn/laravel-eloquent-authorable": "^5.1",
+    "gwd/seo-meta-nova-field": "^1.2",
+    "laravel/nova": "^3.19"
+  },
+  "autoload": {
+    "psr-4": {
+      "Grrr\\Pages\\": "src/",
+      "Grrr\\Pages\\Database\\Factories\\": "database/factories/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\": "tests/"
+    }
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://nova.laravel.com"
+    }
+  ],
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Grrr\\Pages\\ToolServiceProvider"
+      ]
+    }
+  },
+  "require-dev": {
+    "orchestra/testbench": "^6.7",
+    "phpunit/phpunit": "^8.1"
+  },
+  "config": {
+    "sort-packages": true
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "scripts": {
+    "test": "phpunit"
+  }
+}

@@ -10,7 +10,8 @@
     "php": ">=7.1.0",
     "axn/laravel-eloquent-authorable": "^5.1",
     "gwd/seo-meta-nova-field": "^1.2",
-    "laravel/nova": "^3.19"
+    "laravel/nova": "^3.19",
+    "whitecube/nova-flexible-content": "^0.2.7"
   },
   "autoload": {
     "psr-4": {

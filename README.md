@@ -65,6 +65,8 @@ A full list of methods that you are likely to want to customize is the following
 - `getPageTemplates()`: to determine which templates to support as page property.
 - `getDefaultPageTemplate()`: to determine which template should be the default.
 - `getPageStatusOptions()`: to determine the default status of a page.
+- `getLanguageOptions()`: to determine which languages to support in your pages.
+- `getDefaultLanguage()`: defaults to `config('app.locale')`.
 
 #### Using your own model
 

@@ -11,6 +11,7 @@
     "axn/laravel-eloquent-authorable": "^5.1",
     "gwd/seo-meta-nova-field": "^1.2",
     "laravel/nova": "^3.19",
+    "optimistdigital/nova-menu-builder": "^5.0",
     "whitecube/nova-flexible-content": "^0.2.7"
   },
   "autoload": {

@@ -20,6 +20,7 @@ return [
          <br>⚠️  Let op: het updaten van de slug past de URL aan van alle onderliggende pagina\'s!',
         'template' => 'Template',
         'parent' => 'Bovenliggende pagina',
+        'language' => 'Taal',
         'created_at' => 'Aangemaakt op',
         'updated_at' => 'Aangepast op',
         'created_by' => 'Aangemaakt door',

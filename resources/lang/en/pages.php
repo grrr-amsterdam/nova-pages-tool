@@ -20,6 +20,7 @@ return [
             'Together with the slugs of the parent page(s), this will form the URL of this page. Leaving this empty is only allowed for the homepage, since the URL will be "/". <br>⚠️  Note: updating the slug will change the URL and that of all child pages!',
         'template' => 'Template',
         'parent' => 'Parent page',
+        'language' => 'Language',
         'created_at' => 'Created at',
         'updated_at' => 'Updated at',
         'created_by' => 'Created by',

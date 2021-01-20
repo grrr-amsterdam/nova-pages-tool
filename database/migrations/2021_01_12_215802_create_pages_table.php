@@ -24,6 +24,7 @@ class CreatePagesTable extends Migration
             $table->text('content')->nullable();
             $table->string('template')->default('default');
             $table->string('status')->default('PUBLISHED');
+            $table->string('language');
             $table->timestamps();
 
             // Columns as used by axn/laravel-eloquent-authorable

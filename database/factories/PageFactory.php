@@ -25,6 +25,7 @@ class PageFactory extends Factory
             'title' => $this->faker->sentence,
             'slug' => $this->faker->slug,
             'status' => Page::STATUS_PUBLISHED,
+            'language' => config('app.locale'),
         ];
     }
 }

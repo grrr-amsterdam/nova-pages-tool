@@ -127,6 +127,25 @@ class PageResource extends Resource
     }
 
     /**
+     * Extend this to provide your own language options.
+     */
+    public function getLanguageOptions(): array
+    {
+        return [
+            'nl' => 'Nederlands',
+            'en' => 'English',
+        ];
+    }
+
+    /**
+     * Extend this to provide your own default language.
+     */
+    public function getDefaultLanguage(): string
+    {
+        return config('app.locale');
+    }
+
+    /**
      * Extend this to use your own User resource.
      * Note that this is used to resolve "createdBy" and "updatedBy" relations
      * and probably also needs changes to the migration and model if this is
@@ -227,6 +246,12 @@ class PageResource extends Resource
                     ->hideFromIndex()
                     ->options($this->getPageTemplates())
                     ->default($this->getDefaultPageTemplate()),
+
+                Select::make(__('pages::pages.fields.language'), 'language')
+                    ->required()
+                    ->hideFromIndex()
+                    ->options($this->getLanguageOptions())
+                    ->default($this->getDefaultLanguage()),
 
                 DateTime::make(
                     __('pages::pages.fields.created_at'),

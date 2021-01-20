@@ -41,4 +41,5 @@ return [
         'section_title' => 'Section title',
         'section_content' => 'Section content',
     ],
+    'menu_item_label' => 'Page link',
 ];

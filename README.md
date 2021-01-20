@@ -65,6 +65,8 @@ A full list of methods that you are likely to want to customize is the following
 - `getPageTemplates()`: to determine which templates to support as page property.
 - `getDefaultPageTemplate()`: to determine which template should be the default.
 - `getPageStatusOptions()`: to determine the default status of a page.
+- `getLanguageOptions()`: to determine which languages to support in your pages.
+- `getDefaultLanguage()`: defaults to `config('app.locale')`.
 
 #### Using your own model
 
@@ -89,6 +91,17 @@ public function getUserResourceClass(): string
 }
 ```
 
+## Using OptimistDigital/MenuBuilder
+
+You can use this tool together with [OptimistDigital/MenuBuilder](https://github.com/optimistdigital/nova-menu-builder).  
+Follow their documentation, and then add the following custom menu type to the MenuBuilder configuration:
+
+```php
+    'menu_item_types' => [\Grrr\Pages\MenuItemTypes\PageMenuItem::class],
+```
+
+This will allow admins to choose a page from this Tool as a menu item.
+
 ## Rendering pages in the front-end
 
 At the time of writing this is not yet finished.  
@@ -107,3 +120,4 @@ This plugin utilizes the following packages:
 - [Whitecube/NovaFlexibleContent](https://github.com/whitecube/nova-flexible-content)
 - [AndreasGJ/seo-meta-field-nova](https://github.com/AndreasGJ/seo-meta-field-nova)
 - [Axn/laravel-eloquent-authorable](https://github.com/AXN-Informatique/laravel-eloquent-authorable)
+- [OptimistDigital/MenuBuilder](https://github.com/optimistdigital/nova-menu-builder)

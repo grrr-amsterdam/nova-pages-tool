@@ -26,6 +26,11 @@ class Page extends Model
 
     const TEMPLATE_DEFAULT = 'default';
 
+    /**
+     * @todo Make configurable.
+     */
+    protected $table = 'grrr_nova_pages';
+
     protected $casts = [
         'content' => FlexibleCast::class,
     ];

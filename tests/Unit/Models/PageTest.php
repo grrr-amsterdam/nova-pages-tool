@@ -20,9 +20,9 @@ class PageTest extends TestCase
             'content',
             'status',
         ];
-        $this->assertTrue(Schema::hasTable('pages'));
+        $this->assertTrue(Schema::hasTable('grrr_nova_pages'));
         $this->assertTrue(
-            Schema::hasColumns('pages', $expectedColumns),
+            Schema::hasColumns('grrr_nova_pages', $expectedColumns),
             'Pages table does not have expected columns'
         );
     }

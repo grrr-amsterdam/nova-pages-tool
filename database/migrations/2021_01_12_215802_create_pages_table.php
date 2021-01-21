@@ -13,7 +13,7 @@ class CreatePagesTable extends Migration
      */
     public function up(): void
     {
-        Schema::create('pages', function (Blueprint $table) {
+        Schema::create('grrr_nova_pages', function (Blueprint $table) {
             $table->id();
             $table->string('title');
             $table->string('slug')->nullable();
@@ -42,12 +42,12 @@ class CreatePagesTable extends Migration
         });
 
         // Adding a foreign key to the same table while creating it is not possible.
-        Schema::table('pages', function (Blueprint $table) {
+        Schema::table('grrr_nova_pages', function (Blueprint $table) {
             $table
                 ->foreignId('parent_id')
                 ->nullable()
                 ->references('id')
-                ->on('pages');
+                ->on('grrr_nova_pages');
 
             // Create compound unique index on parent_id and slug: slugs can
             // only exist once at the same level.
@@ -62,6 +62,6 @@ class CreatePagesTable extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pages');
+        Schema::dropIfExists('grrr_nova_pages');
     }
 }

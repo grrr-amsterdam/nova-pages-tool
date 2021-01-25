@@ -83,11 +83,8 @@ class PageMenuItem extends BaseMenuItemType
      * @param $locale
      * @return ?string
      */
-    public static function getValue(
-        $value = null,
-        array $data = null,
-        $locale
-    ): ?string {
+    public static function getValue($value, ?array $data, $locale): ?string
+    {
         if (!static::$allPages) {
             static::$allPages = Page::query()->pluck('url', 'id');
         }

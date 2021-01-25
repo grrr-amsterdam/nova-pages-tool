@@ -42,4 +42,8 @@ return [
         'section_content' => 'Section content',
     ],
     'menu_item_label' => 'Page link',
+    'validation' => [
+        'uniqueSlug' =>
+            'This slug is not unique — it already exists at this level. Choose another slug, or change to another parent page.',
+    ],
 ];

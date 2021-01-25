@@ -42,4 +42,8 @@ return [
         'section_content' => 'Sectie inhoud',
     ],
     'menu_item_label' => 'Pagina link',
+    'validation' => [
+        'uniqueSlug' =>
+            'De slug is niet uniek — hij bestaat al op dit niveau. Kies een andere slug, of een andere bovenliggende pagina.',
+    ],
 ];

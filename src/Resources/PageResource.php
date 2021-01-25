@@ -7,6 +7,8 @@ use Grrr\Pages\Models\Page as PageModel;
 use Gwd\SeoMeta\SeoMeta;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use Laravel\Nova\Fields\Badge;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\DateTime;
@@ -303,5 +305,35 @@ class PageResource extends Resource
         }
         $query->where('id', '!=', $resourceId);
         return $query;
+    }
+
+    /**
+     * Validate the uniqueness of the URL, basically, which is determined by
+     * combining the slug and all parent slugs.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  \Illuminate\Validation\Validator  $validator
+     * @return void
+     */
+    protected static function afterValidation(NovaRequest $request, $validator)
+    {
+        $parentId = $request->post('parent');
+        $unique = Rule::unique('grrr_nova_pages', 'slug')->where(
+            'parent_id',
+            $parentId
+        );
+        if ($request->route('resourceId')) {
+            $unique->ignore($request->route('resourceId'));
+        }
+
+        $uniqueValidator = Validator::make($request->only('slug'), [
+            'slug' => [$unique],
+        ]);
+
+        if ($uniqueValidator->fails()) {
+            $validator
+                ->errors()
+                ->add('slug', __('pages::pages.validation.uniqueSlug'));
+        }
     }
 }

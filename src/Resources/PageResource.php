@@ -81,8 +81,14 @@ class PageResource extends Resource
                 __('pages::pages.flexible.sample_section'),
                 'content_section',
                 [
-                    Text::make(__('pages::pages.flexible.section_title')),
-                    Textarea::make(__('pages::pages.flexible.section_content')),
+                    Text::make(
+                        __('pages::pages.flexible.section_title'),
+                        'section_title'
+                    ),
+                    Textarea::make(
+                        __('pages::pages.flexible.section_content'),
+                        'section_content'
+                    ),
                 ],
             ],
         ];

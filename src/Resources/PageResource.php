@@ -214,7 +214,7 @@ class PageResource extends Resource
         );
 
         return [
-            new Panel(__('pages::pages.panels.basic'), [
+            (new Panel(__('pages::pages.panels.basic'), [
                 Text::make(__('pages::pages.fields.title'), 'title')->rules(
                     'required'
                 ),
@@ -291,7 +291,7 @@ class PageResource extends Resource
                 )
                     ->readonly()
                     ->onlyOnDetail(),
-            ]),
+            ]))->withToolbar(),
 
             new Panel(__('pages::pages.panels.content'), [$flexible]),
 

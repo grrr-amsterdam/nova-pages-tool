@@ -15,9 +15,6 @@ class PagesTool extends Tool
      */
     public function boot()
     {
-        Nova::script('pages', __DIR__ . '/../dist/js/tool.js');
-        Nova::style('pages', __DIR__ . '/../dist/css/tool.css');
-
         Nova::resources([PageResource::class]);
     }
 

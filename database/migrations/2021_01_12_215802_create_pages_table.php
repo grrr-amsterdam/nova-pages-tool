@@ -28,8 +28,8 @@ class CreatePagesTable extends Migration
             $table->timestamps();
 
             // Columns as used by axn/laravel-eloquent-authorable
-            $table->unsignedInteger('created_by')->nullable();
-            $table->unsignedInteger('updated_by')->nullable();
+            $table->unsignedBigInteger('created_by')->nullable();
+            $table->unsignedBigInteger('updated_by')->nullable();
             $table
                 ->foreign('created_by')
                 ->references('id')

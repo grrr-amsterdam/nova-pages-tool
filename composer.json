@@ -48,6 +48,7 @@
   "minimum-stability": "dev",
   "prefer-stable": true,
   "scripts": {
-    "test": "./vendor/bin/phpunit --colors=always"
+    "test": "./vendor/bin/phpunit --colors=always",
+    "format": "./node_modules/.bin/prettier --write ."
   }
 }

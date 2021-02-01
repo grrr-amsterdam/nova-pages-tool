@@ -1,5 +1,7 @@
 # Nova Page module
 
+![CI](https://github.com/grrr-amsterdam/nova-pages-tool/workflows/CI/badge.svg)
+
 This tool allows you to manage pages in your app.
 
 It will take care of URL generation and contains some default fields for pages.
@@ -34,7 +36,7 @@ public function tools(): array
 Out of the box you will get a Pages tool in your Nova back-end to manage pages. If everything is to your liking, you can just start using it as-is!
 
 However, you will probably want to add some layouts to be used in the flexible-content portion of the page.
-Extend `Grrr\Pages\Resources\PageResource`, and override the `getFlexibleLayouts()` method:
+You can create your own `Page` resource and extend `Grrr\Pages\Resources\PageResource`. Override the `getFlexibleLayouts()` method to specify your own flexible content layouts:
 
 ```php
 namespace App\Nova;
@@ -55,7 +57,8 @@ class Page extends \Grrr\Pages\Resources\PageResource
 }
 ```
 
-As you can see, both array-notation and custom layout classes are supported. Anything you can pass to `Flexible::make()->addLayout()` will be a valid entry in the array.
+As you can see, both array-notation and custom layout classes are supported. Anything you can pass to `Flexible::make()->addLayout()` will be a valid entry in the array.  
+[See the FlexibleContent documentation](https://whitecube.github.io/nova-flexible-content/#/?id=adding-layouts) for details.
 
 ### Other extensions
 
@@ -91,7 +94,7 @@ public function getUserResourceClass(): string
 }
 ```
 
-## Using OptimistDigital/MenuBuilder
+## Integration with OptimistDigital/MenuBuilder
 
 You can use this tool together with [OptimistDigital/MenuBuilder](https://github.com/optimistdigital/nova-menu-builder).  
 Follow their documentation, and then add the following custom menu type to the MenuBuilder configuration:
@@ -112,6 +115,24 @@ How we would implement this:
 - Implement a catch-all route or middleware.
 - See if the request matches the `url` property of a page in the database.
 - If so, render the template as stored in the page's `template` property.
+
+## Contributing
+
+Contributions are always welcome!
+
+You can fork this repo, run `composer install` and `npm install` and start hacking away.
+
+### Code quality assurance
+
+Please make sure the tests pass, we use those to ensure everything keeps working.
+
+Next to unit tests, we do a couple of small validations to ensure everything looks consistent.  
+Your Pull Request will be validated automatically through Github Actions.
+
+1. We validate commit messages. [Take a look at the documentation of this Github Action to make sure your commit messages validate](https://github.com/harmenjanssen/commit-message-validation-action).
+2. We also use [Prettier](https://prettier.io/) to automatically format our code. You can run `composer format` to format your changes before committing.
+
+Thanks! 🌸
 
 ## Credits
 

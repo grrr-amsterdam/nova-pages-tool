@@ -94,6 +94,18 @@ public function getUserResourceClass(): string
 }
 ```
 
+## Rendering a Page selector elsewhere in your CMS
+
+It makes sense to want to create a `Page` selector on other resources, when you want other models to link to pages for instance.  
+The `PageResource` class provides a convenience method for rendering the options for such a field, neatly ordered and indented based on their level of nesting.
+
+Use it like this:
+
+```php
+Select::make('My page')
+    ->options(PageResource::getPageOptionsForSelect())
+```
+
 ## Integration with OptimistDigital/MenuBuilder
 
 You can use this tool together with [OptimistDigital/MenuBuilder](https://github.com/optimistdigital/nova-menu-builder).  

@@ -314,6 +314,28 @@ class PageResource extends Resource
     }
 
     /**
+     * Create an ordered set of pages, to be used in Select-type fields in Nova.
+     * This can be used in userland-provided resources that need to link to
+     * pages, for instance.
+     */
+    public static function getPageOptionsForSelect(): array
+    {
+        return PageModel::query()
+            ->select(['title', 'url', 'id'])
+            ->orderBy('url')
+            ->orderBy('title')
+            ->cursor()
+            ->mapWithKeys(function (PageModel $page) {
+                return [
+                    $page->id =>
+                        str_repeat('-', substr_count($page->url, '/') - 1) .
+                        " {$page->title}",
+                ];
+            })
+            ->toArray();
+    }
+
+    /**
      * Validate the uniqueness of the URL, basically, which is determined by
      * combining the slug and all parent slugs.
      *

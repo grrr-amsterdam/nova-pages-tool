@@ -3,6 +3,7 @@
 namespace Grrr\Pages\MenuItemTypes;
 
 use Grrr\Pages\Models\Page;
+use Grrr\Pages\Resources\PageResource;
 use Laravel\Nova\Fields\Select;
 use OptimistDigital\MenuBuilder\MenuItemTypes\BaseMenuItemType;
 
@@ -54,19 +55,7 @@ class PageMenuItem extends BaseMenuItemType
      */
     public static function getOptions(): array
     {
-        return Page::query()
-            ->select(['title', 'url', 'id'])
-            ->orderBy('url')
-            ->orderBy('title')
-            ->cursor()
-            ->mapWithKeys(function (Page $page) {
-                return [
-                    $page->id =>
-                        str_repeat('-', substr_count($page->url, '/') - 1) .
-                        " {$page->title}",
-                ];
-            })
-            ->toArray();
+        return PageResource::getPageOptionsForSelect();
     }
 
     /**

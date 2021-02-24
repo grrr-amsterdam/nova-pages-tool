@@ -103,7 +103,7 @@ Use it like this:
 
 ```php
 Select::make('My page')
-    ->options(PageResource::getPageOptionsForSelect())
+    ->options(PageResource::getPageOptionsForSelect());
 ```
 
 ## Integration with OptimistDigital/MenuBuilder
@@ -116,6 +116,8 @@ Follow their documentation, and then add the following custom menu type to the M
 ```
 
 This will allow admins to choose a page from this Tool as a menu item.
+
+## Multilingual support
 
 ## Rendering pages in the front-end
 

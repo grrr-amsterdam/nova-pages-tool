@@ -3,6 +3,7 @@
 namespace Tests\Unit\Models;
 
 use Grrr\Pages\Models\Page;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Schema;
 use Tests\Unit\TestCase;
 
@@ -94,5 +95,24 @@ class PageTest extends TestCase
 
         $this->assertSame(false, $freshPage->metadata['bar']);
         $this->assertSame("lorem ipsum", $freshPage->metadata['qux']);
+    }
+
+    public function it_may_have_translations(): void
+    {
+        $page = Page::factory()->create();
+        $this->assertInstanceOf(Collection::class, $page->translations);
+    }
+
+    /** @test */
+    public function you_can_add_a_translation(): void
+    {
+        $pageEn = Page::factory()->create(['language' => 'en']);
+        $pageNl = Page::factory()->create(['language' => 'nl']);
+
+        $pageEn->translations()->attach($pageNl->id);
+
+        $pageEn->refresh();
+        $this->assertCount(1, $pageEn->translations);
+        $this->assertInstanceOf(Page::class, $pageEn->translations->first());
     }
 }

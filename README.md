@@ -150,7 +150,12 @@ The `PageResource` class provides a convenience method for rendering the options
 Use it like this:
 
 ```php
+<<<<<<< HEAD
 Select::make('My page')->options(PageResource::getPageOptionsForSelect());
+=======
+Select::make('My page')
+    ->options(PageResource::getPageOptionsForSelect());
+>>>>>>> 37fae02... Start adding multilingual support
 ```
 
 ## Integration with OptimistDigital/MenuBuilder
@@ -163,6 +168,8 @@ Follow their documentation, and then add the following custom menu type to the M
 ```
 
 This will allow admins to choose a page from this Tool as a menu item.
+
+## Multilingual support
 
 ## Rendering pages in the front-end
 

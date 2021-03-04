@@ -150,12 +150,7 @@ The `PageResource` class provides a convenience method for rendering the options
 Use it like this:
 
 ```php
-<<<<<<< HEAD
 Select::make('My page')->options(PageResource::getPageOptionsForSelect());
-=======
-Select::make('My page')
-    ->options(PageResource::getPageOptionsForSelect());
->>>>>>> 37fae02... Start adding multilingual support
 ```
 
 ## Integration with OptimistDigital/MenuBuilder

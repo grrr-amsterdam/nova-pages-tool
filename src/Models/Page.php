@@ -78,10 +78,10 @@ class Page extends Model
     {
         return $this->belongsToMany(
             self::class,
-            'grrr_nova_page_translations',
+            'grrr_nova_page_translation',
             'page_id',
             'translation_id'
-        );
+        )->using(PageTranslation::class);
     }
 
     protected static function newFactory(): PageFactory

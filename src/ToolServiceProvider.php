@@ -2,8 +2,10 @@
 
 namespace Grrr\Pages;
 
+use Grrr\Pages\Events\AttachedTranslation;
 use Grrr\Pages\Events\SavingPage;
 use Grrr\Pages\Events\SavedPage;
+use Grrr\Pages\Listeners\AttachTranslationBothWays;
 use Grrr\Pages\Listeners\UpdatePageUrl;
 use Grrr\Pages\Listeners\UpdateChildPageUrls;
 use Illuminate\Support\Facades\Event;
@@ -25,5 +27,9 @@ class ToolServiceProvider extends ServiceProvider
         // Handle a page's URL composition.
         Event::listen(SavingPage::class, [UpdatePageUrl::class, 'handle']);
         Event::listen(SavedPage::class, [UpdateChildPageUrls::class, 'handle']);
+        Event::listen(AttachedTranslation::class, [
+            AttachTranslationBothWays::class,
+            'handle',
+        ]);
     }
 }

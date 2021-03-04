@@ -12,6 +12,7 @@ use Grrr\Pages\Models\Page as PageModel;
 use Gwd\SeoMeta\SeoMeta;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
@@ -19,11 +20,13 @@ use Laravel\Nova\Fields\Badge;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\DateTime;
+use Laravel\Nova\Fields\Field;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Slug;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Nova;
 use Laravel\Nova\Panel;
 use Laravel\Nova\Resource;
 use Whitecube\NovaFlexibleContent\Flexible;
@@ -341,13 +344,20 @@ class PageResource extends Resource
 
     public static function relatablePages(
         NovaRequest $request,
-        Builder $query
+        Builder $query,
+        Field $field
     ): Builder {
+        // @todo How can we test this?
         $resourceId = $request->input('resourceId');
+
         if (!$resourceId) {
             return $query;
         }
         $query->where('id', '!=', $resourceId);
+
+        $current = static::newModel()->find($resourceId);
+        $query->where('language', '=', $current->language);
+
         return $query;
     }
 

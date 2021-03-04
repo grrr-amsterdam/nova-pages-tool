@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Laravel\Nova\Fields\Badge;
 use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Slug;
@@ -291,6 +292,12 @@ class PageResource extends Resource
                 )
                     ->readonly()
                     ->onlyOnDetail(),
+
+                BelongsToMany::make(
+                    'Translations',
+                    'translations',
+                    self::class
+                ),
             ]))->withToolbar(),
 
             new Panel(__('pages::pages.panels.content'), [$flexible]),

@@ -10,6 +10,7 @@ use Gwd\SeoMeta\Traits\SeoMetaTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Laravel\Nova\Actions\Actionable;
 use Whitecube\NovaFlexibleContent\Value\FlexibleCast;
@@ -57,6 +58,16 @@ class Page extends Model
     public function children(): HasMany
     {
         return $this->hasMany(self::class, 'parent_id');
+    }
+
+    public function translations(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            self::class,
+            'grrr_nova_page_translations',
+            'page_id',
+            'translation_id'
+        );
     }
 
     protected static function newFactory(): PageFactory

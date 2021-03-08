@@ -192,7 +192,7 @@ class PageResource extends Resource
      */
     public function title(): string
     {
-        return $this->title;
+        return $this->title . ' (' . $this->language . ')';
     }
 
     public function fieldsForIndex(): array
@@ -348,15 +348,19 @@ class PageResource extends Resource
         Field $field
     ): Builder {
         // @todo How can we test this?
-        $resourceId = $request->input('resourceId');
-
-        if (!$resourceId) {
+        if (!$request->resourceId) {
             return $query;
         }
-        $query->where('id', '!=', $resourceId);
+        $model = $request->findModelOrFail($request->resourceId);
+        $query->where('id', '!=', $model->id);
 
-        $current = static::newModel()->find($resourceId);
-        $query->where('language', '=', $current->language);
+        if ($field->attribute === 'parent') {
+            $query->where('language', $model->language);
+        }
+
+        if ($field->attribute === 'translations') {
+            $query->where('language', '!=', $model->language);
+        }
 
         return $query;
     }

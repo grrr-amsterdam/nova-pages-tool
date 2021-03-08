@@ -3,6 +3,7 @@
 namespace Grrr\Pages\Resources;
 
 use App\Nova\User;
+use Grrr\Pages\Filters\Language;
 use Grrr\Pages\Models\Page as PageModel;
 use Gwd\SeoMeta\SeoMeta;
 use Illuminate\Database\Eloquent\Builder;
@@ -73,6 +74,11 @@ class PageResource extends Resource
 
             return $q->orderBy('url')->orderBy('title');
         });
+    }
+
+    public function filters(Request $request)
+    {
+        return [new Language()];
     }
 
     /**

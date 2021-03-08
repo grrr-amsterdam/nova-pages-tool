@@ -24,6 +24,12 @@ class ToolServiceProvider extends ServiceProvider
         $this->loadTranslationsFrom(__DIR__ . '/../resources/lang/', 'pages');
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations/');
 
+        $this->publishes([
+            __DIR__ . '/../config/nova-pages-tool.php' => config_path(
+                'nova-pages-tool.php'
+            ),
+        ]);
+
         // Handle a page's URL composition.
         Event::listen(SavingPage::class, [UpdatePageUrl::class, 'handle']);
         Event::listen(SavedPage::class, [UpdateChildPageUrls::class, 'handle']);
@@ -31,5 +37,18 @@ class ToolServiceProvider extends ServiceProvider
             AttachTranslationBothWays::class,
             'handle',
         ]);
+    }
+
+    /**
+     * register any application services.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        $this->mergeConfigFrom(
+            __DIR__ . '/../config/nova-pages-tool.php',
+            'nova-pages-tool'
+        );
     }
 }

@@ -164,10 +164,7 @@ class PageResource extends Resource
      */
     public function getLanguageOptions(): array
     {
-        return [
-            'nl' => 'Nederlands',
-            'en' => 'English',
-        ];
+        return config('nova-pages-tool.languages');
     }
 
     /**
@@ -175,7 +172,7 @@ class PageResource extends Resource
      */
     public function getDefaultLanguage(): string
     {
-        return config('app.locale');
+        return config('nova-pages-tool.defaultLanguage');
     }
 
     /**

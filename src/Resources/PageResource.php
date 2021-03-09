@@ -210,7 +210,7 @@ class PageResource extends Resource
         // Implementers should override getFlexibleLayouts() and provide their
         // own layouts specific to their domain.
         collect($this->getFlexibleLayouts())->each(
-            fn($args) => $flexible->addLayout(...$args)
+            fn($args) => $flexible->addLayout(...(array) $args)
         );
 
         return [

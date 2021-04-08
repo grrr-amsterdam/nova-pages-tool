@@ -25,7 +25,6 @@ return [
         'updated_at' => 'Updated at',
         'created_by' => 'Created by',
         'updated_by' => 'Updated by',
-        'seo' => 'SEO',
     ],
     'panels' => [
         'basic' => 'Basic information',

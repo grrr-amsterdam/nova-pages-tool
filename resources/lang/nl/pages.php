@@ -25,7 +25,6 @@ return [
         'updated_at' => 'Aangepast op',
         'created_by' => 'Aangemaakt door',
         'updated_by' => 'Aangepast door',
-        'seo' => 'SEO',
     ],
     'panels' => [
         'basic' => 'Basisinformatie',

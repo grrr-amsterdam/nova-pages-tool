@@ -6,7 +6,6 @@ use Axn\EloquentAuthorable\AuthorableTrait;
 use Grrr\Pages\Database\Factories\PageFactory;
 use Grrr\Pages\Events\SavingPage;
 use Grrr\Pages\Events\SavedPage;
-use Gwd\SeoMeta\Traits\SeoMetaTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -17,7 +16,6 @@ use Whitecube\NovaFlexibleContent\Value\FlexibleCast;
 class Page extends Model
 {
     use HasFactory;
-    use SeoMetaTrait;
     use AuthorableTrait;
     use Actionable;
 

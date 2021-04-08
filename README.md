@@ -102,8 +102,7 @@ The `PageResource` class provides a convenience method for rendering the options
 Use it like this:
 
 ```php
-Select::make('My page')
-    ->options(PageResource::getPageOptionsForSelect())
+Select::make('My page')->options(PageResource::getPageOptionsForSelect());
 ```
 
 ## Integration with OptimistDigital/MenuBuilder
@@ -151,6 +150,5 @@ Thanks! 🌸
 This plugin utilizes the following packages:
 
 - [Whitecube/NovaFlexibleContent](https://github.com/whitecube/nova-flexible-content)
-- [AndreasGJ/seo-meta-field-nova](https://github.com/AndreasGJ/seo-meta-field-nova)
 - [Axn/laravel-eloquent-authorable](https://github.com/AXN-Informatique/laravel-eloquent-authorable)
 - [OptimistDigital/MenuBuilder](https://github.com/optimistdigital/nova-menu-builder)

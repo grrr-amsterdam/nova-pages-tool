@@ -4,7 +4,6 @@ namespace Grrr\Pages\Resources;
 
 use App\Nova\User;
 use Grrr\Pages\Models\Page as PageModel;
-use Gwd\SeoMeta\SeoMeta;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -294,10 +293,6 @@ class PageResource extends Resource
             ]))->withToolbar(),
 
             new Panel(__('pages::pages.panels.content'), [$flexible]),
-
-            new Panel(__('pages::pages.panels.meta'), [
-                SeoMeta::make(__('pages::pages.fields.seo'), 'seo_meta'),
-            ]),
         ];
     }
 

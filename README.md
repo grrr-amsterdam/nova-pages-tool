@@ -102,8 +102,7 @@ The `PageResource` class provides a convenience method for rendering the options
 Use it like this:
 
 ```php
-Select::make('My page')
-    ->options(PageResource::getPageOptionsForSelect())
+Select::make('My page')->options(PageResource::getPageOptionsForSelect());
 ```
 
 ## Integration with OptimistDigital/MenuBuilder

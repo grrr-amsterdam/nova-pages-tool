@@ -7,6 +7,7 @@ use Grrr\Pages\Database\Factories\PageFactory;
 use Grrr\Pages\Events\SavingPage;
 use Grrr\Pages\Events\SavedPage;
 use Gwd\SeoMeta\Traits\SeoMetaTrait;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -14,6 +15,18 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Laravel\Nova\Actions\Actionable;
 use Whitecube\NovaFlexibleContent\Value\FlexibleCast;
 
+/**
+ * @property Collection $children
+ * @property string $content
+ * @property int $id
+ * @property string $language
+ * @property Page $parent
+ * @property string $slug
+ * @property string $status
+ * @property string $template
+ * @property string $title
+ * @property string $url
+ */
 class Page extends Model
 {
     use HasFactory;

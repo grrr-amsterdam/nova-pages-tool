@@ -7,7 +7,7 @@
   ],
   "license": "MIT",
   "require": {
-    "php": ">=7.1.0",
+    "php": "~7.4 | ~8.0",
     "axn/laravel-eloquent-authorable": "^5.1",
     "gwd/seo-meta-nova-field": "^1.2",
     "laravel/nova": "^3.19",

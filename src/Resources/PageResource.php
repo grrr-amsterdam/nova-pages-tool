@@ -235,13 +235,9 @@ class PageResource extends Resource
                     )
                     ->asHtml(),
 
-                BelongsTo::make(
-                    __('pages::pages.fields.parent'),
-                    'parent',
-                    static::class
-                )
-                    ->nullable()
-                    ->display('title'),
+                Select::make(__('pages::pages.fields.parent'), 'parent_id')
+                    ->options(self::getPageOptionsForSelect())
+                    ->displayUsingLabels(),
 
                 Select::make(__('pages::pages.fields.status'), 'status')
                     ->options($this->getPageStatusOptions())

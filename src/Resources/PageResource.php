@@ -202,10 +202,9 @@ class PageResource extends Resource
 
     public function fields(Request $request): array
     {
-        $flexible = Flexible::make(
-            __('pages::pages.fields.content'),
-            'content'
-        )->nullable();
+        $flexible = Flexible::make(__('pages::pages.fields.content'), 'content')
+            ->nullable()
+            ->collapsed();
         // Collect layouts and add them to the field.
         // Implementers should override getFlexibleLayouts() and provide their
         // own layouts specific to their domain.

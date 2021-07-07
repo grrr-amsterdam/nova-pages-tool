@@ -1,3 +1,7 @@
+@php
+use Grrr\Pages\Resources\PageResource;
+@endphp
+@if (PageResource::authorizedToViewAny(request()))
 <router-link tag="h3" :to="{
     name: 'index',
     params: {
@@ -10,3 +14,4 @@
         {{__('pages::pages.label')}}
     </span>
 </router-link>
+@endif

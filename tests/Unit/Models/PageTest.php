@@ -77,4 +77,22 @@ class PageTest extends TestCase
         $child->refresh();
         $this->assertSame($child->url, '/stuff/web-design');
     }
+
+    /** @test */
+    public function page_accepts_metadata(): void
+    {
+        $page = Page::factory()->make(['slug' => 'web-design']);
+        $page->metadata = [
+            'foo' => 123,
+            'bar' => false,
+            'qux' => 'lorem ipsum',
+        ];
+        $page->save();
+
+        $freshPage = $page->fresh();
+        $this->assertSame(123, $freshPage->metadata['foo']);
+
+        $this->assertSame(false, $freshPage->metadata['bar']);
+        $this->assertSame("lorem ipsum", $freshPage->metadata['qux']);
+    }
 }

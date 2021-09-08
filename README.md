@@ -73,6 +73,34 @@ public function getFlexiblePreset(): ?string
 }
 ```
 
+### Custom fields per template
+
+You might want to provide your users with different fields based on the chosen template.  
+For instance, let's say you provide 3 templates: `default`, `homepage` and `news-article`.
+
+The `homepage` features a large header with hero image, whereas the `news-article` page should have an introduction field and publication date.
+
+By implementing `fieldsForHomepage` and `fieldsForNewsArticle`, you can provide these fields. In the front-end they're made conditionally available based on the chosen template:
+
+```php
+public function fieldsForHomepage(): array
+{
+  return [
+    Image::make('Hero image')
+  ];
+}
+
+public function fieldsForNewsArticle(): array
+{
+  return [
+    Textarea::make('Introduction'),
+    Date::make('Publication date')
+  ];
+}
+```
+
+Any method in the form `fieldsFor<template>` will be automatically picked up.
+
 ### Other extensions
 
 A full list of methods that you are likely to want to customize is the following:
@@ -166,3 +194,4 @@ This plugin utilizes the following packages:
 - [AndreasGJ/seo-meta-field-nova](https://github.com/AndreasGJ/seo-meta-field-nova)
 - [Axn/laravel-eloquent-authorable](https://github.com/AXN-Informatique/laravel-eloquent-authorable)
 - [OptimistDigital/MenuBuilder](https://github.com/optimistdigital/nova-menu-builder)
+- [Epartment/NovaDependencyContainer](https://github.com/epartment/nova-dependency-container)

@@ -29,8 +29,9 @@ return [
     ],
     'panels' => [
         'basic' => 'Basic information',
+        'template' => 'Template',
         'content' => 'Content',
-        'meta' => 'Meta information',
+        'seo' => 'Search engine optimization',
     ],
     'status' => [
         'PUBLISHED' => 'Published',

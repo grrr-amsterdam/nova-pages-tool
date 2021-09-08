@@ -29,8 +29,9 @@ return [
     ],
     'panels' => [
         'basic' => 'Basisinformatie',
+        'template' => 'Template',
         'content' => 'Inhoud',
-        'meta' => 'Meta informatie',
+        'seo' => 'Zoekmachineoptimalisatie',
     ],
     'status' => [
         'PUBLISHED' => 'Gepubliceerd',

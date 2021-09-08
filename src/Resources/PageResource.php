@@ -3,11 +3,14 @@
 namespace Grrr\Pages\Resources;
 
 use App\Nova\User;
+use Epartment\NovaDependencyContainer\HasDependencies;
+use Epartment\NovaDependencyContainer\NovaDependencyContainer;
 use Grrr\Pages\Models\Page as PageModel;
 use Gwd\SeoMeta\SeoMeta;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Laravel\Nova\Fields\Badge;
 use Laravel\Nova\Fields\BelongsTo;
@@ -26,6 +29,8 @@ use Whitecube\NovaFlexibleContent\Flexible;
  */
 class PageResource extends Resource
 {
+    use HasDependencies;
+
     /**
      * The relationships that should be eager loaded on index queries.
      *
@@ -257,12 +262,6 @@ class PageResource extends Resource
                     ->onlyOnForms()
                     ->default($this->getDefaultPageStatus()),
 
-                Select::make(__('pages::pages.fields.template'), 'template')
-                    ->required()
-                    ->hideFromIndex()
-                    ->options($this->getPageTemplates())
-                    ->default($this->getDefaultPageTemplate()),
-
                 Select::make(__('pages::pages.fields.language'), 'language')
                     ->required()
                     ->hideFromIndex()
@@ -301,9 +300,26 @@ class PageResource extends Resource
                     ->onlyOnDetail(),
             ]))->withToolbar(),
 
+            new Panel(
+                __('pages::pages.panels.template'),
+                array_merge(
+                    [
+                        Select::make(
+                            __('pages::pages.fields.template'),
+                            'template'
+                        )
+                            ->required()
+                            ->hideFromIndex()
+                            ->options($this->getPageTemplates())
+                            ->default($this->getDefaultPageTemplate()),
+                    ],
+                    $this->getTemplateDependentFields()
+                )
+            ),
+
             new Panel(__('pages::pages.panels.content'), [$flexible]),
 
-            new Panel(__('pages::pages.panels.meta'), [
+            new Panel(__('pages::pages.panels.seo'), [
                 SeoMeta::make(__('pages::pages.fields.seo'), 'seo_meta'),
             ]),
         ];
@@ -371,5 +387,30 @@ class PageResource extends Resource
                 ->errors()
                 ->add('slug', __('pages::pages.validation.uniqueSlug'));
         }
+    }
+
+    protected function getTemplateDependentFields(): array
+    {
+        return collect($this->getPageTemplates())
+            ->filter(
+                fn(string $templateName) => method_exists(
+                    $this,
+                    "fieldsFor" . Str::studly($templateName)
+                )
+            )
+            ->map(function (string $templateName) {
+                $method = "fieldsFor" . Str::studly($templateName);
+                $fields = $this->$method();
+                if (!is_array($fields)) {
+                    throw new \Exception(
+                        "Unable to deduce template-specific fields for method {$method}."
+                    );
+                }
+                return NovaDependencyContainer::make($fields)->dependsOn(
+                    'template',
+                    $templateName
+                );
+            })
+            ->all();
     }
 }

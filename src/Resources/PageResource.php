@@ -95,6 +95,14 @@ class PageResource extends Resource
     }
 
     /**
+     * Extend to this to provide your own flexible layouts via a Preset.
+     */
+    public function getFlexiblePreset(): ?string
+    {
+        return null;
+    }
+
+    /**
      * Extend this to provide your own template options.
      */
     public function getPageTemplates(): array
@@ -211,6 +219,11 @@ class PageResource extends Resource
         collect($this->getFlexibleLayouts())->each(
             fn($args) => $flexible->addLayout(...(array) $args)
         );
+        // Alternatively, or additively, allow a preset to be configured for this field.
+        $preset = $this->getFlexiblePreset();
+        if ($preset) {
+            $flexible->preset($preset);
+        }
 
         return [
             (new Panel(__('pages::pages.panels.basic'), [

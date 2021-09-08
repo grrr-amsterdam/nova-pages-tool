@@ -48,6 +48,7 @@ class Page extends Model
 
     protected $casts = [
         'content' => FlexibleCast::class,
+        'metadata' => 'array',
     ];
 
     /**

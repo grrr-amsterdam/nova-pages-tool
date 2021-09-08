@@ -86,20 +86,27 @@ By implementing `fieldsForHomepage` and `fieldsForNewsArticle`, you can provide 
 public function fieldsForHomepage(): array
 {
   return [
-    Image::make('Hero image')
+    Image::make('Hero image', 'metadata->hero_image')
   ];
 }
 
 public function fieldsForNewsArticle(): array
 {
   return [
-    Textarea::make('Introduction'),
-    Date::make('Publication date')
+    Textarea::make('Introduction', 'metadata->introduction'),
+    Date::make('Publication date', 'metadata->publication_date')
   ];
 }
 ```
 
 Any method in the form `fieldsFor<template>` will be automatically picked up.
+
+### Storing metadata
+
+Notice how in the above example we're using this notation for the dynamic fields: `metadata->introduction`.  
+This works because we provide a `metadata` json field for the Page model. Using a field like this will save the value as a property of that JSON field.
+
+This allows you to store arbitrary data with your pages without having to extend it with your own migrations (although you totally can of course!).
 
 ### Other extensions
 

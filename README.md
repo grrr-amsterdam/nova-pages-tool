@@ -60,6 +60,19 @@ class Page extends \Grrr\Pages\Resources\PageResource
 As you can see, both array-notation and custom layout classes are supported. Anything you can pass to `Flexible::make()->addLayout()` will be a valid entry in the array.  
 [See the FlexibleContent documentation](https://whitecube.github.io/nova-flexible-content/#/?id=adding-layouts) for details.
 
+#### Using presets
+
+Alternatively, you can bundle your layouts in a [Preset class](https://whitecube.github.io/nova-flexible-content/#/?id=predefined-preset-classes).
+
+Extend `getFlexiblePreset()` to provide its classname:
+
+```php
+public function getFlexiblePreset(): ?string
+{
+  return \App\Nova\Flexible\Presets\MyPreset::class;
+}
+```
+
 ### Other extensions
 
 A full list of methods that you are likely to want to customize is the following:

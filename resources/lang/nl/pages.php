@@ -41,6 +41,9 @@ return [
         'sample_section' => 'Sectie',
         'section_title' => 'Sectie titel',
         'section_content' => 'Sectie inhoud',
+        'collection' => [
+            'page_template' => 'Pagina template',
+        ],
     ],
     'menu_item_label' => 'Pagina link',
     'validation' => [

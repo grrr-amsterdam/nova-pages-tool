@@ -41,6 +41,9 @@ return [
         'sample_section' => 'Sample section',
         'section_title' => 'Section title',
         'section_content' => 'Section content',
+        'collection' => [
+            'page_template' => 'Page template',
+        ],
     ],
     'menu_item_label' => 'Page link',
     'validation' => [

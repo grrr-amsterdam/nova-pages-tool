@@ -5,6 +5,7 @@ namespace Grrr\Pages\Resources;
 use App\Nova\User;
 use Epartment\NovaDependencyContainer\HasDependencies;
 use Epartment\NovaDependencyContainer\NovaDependencyContainer;
+use Grrr\Pages\Nova\Flexible\Layouts\Collection;
 use Grrr\Pages\Models\Page as PageModel;
 use Gwd\SeoMeta\SeoMeta;
 use Illuminate\Database\Eloquent\Builder;
@@ -96,6 +97,7 @@ class PageResource extends Resource
                     ),
                 ],
             ],
+            Collection::class,
         ];
     }
 
@@ -224,6 +226,7 @@ class PageResource extends Resource
         collect($this->getFlexibleLayouts())->each(
             fn($args) => $flexible->addLayout(...(array) $args)
         );
+
         // Alternatively, or additively, allow a preset to be configured for this field.
         $preset = $this->getFlexiblePreset();
         if ($preset) {

@@ -302,19 +302,15 @@ class PageResource extends Resource
 
             new Panel(
                 __('pages::pages.panels.template'),
-                array_merge(
-                    [
-                        Select::make(
-                            __('pages::pages.fields.template'),
-                            'template'
-                        )
-                            ->required()
-                            ->hideFromIndex()
-                            ->options($this->getPageTemplates())
-                            ->default($this->getDefaultPageTemplate()),
-                    ],
-                    $this->getTemplateDependentFields()
-                )
+                collect([
+                    Select::make(__('pages::pages.fields.template'), 'template')
+                        ->required()
+                        ->hideFromIndex()
+                        ->options($this->getPageTemplates())
+                        ->default($this->getDefaultPageTemplate()),
+                ])
+                    ->concat($this->getTemplateDependentFields())
+                    ->all()
             ),
 
             new Panel(__('pages::pages.panels.content'), [$flexible]),

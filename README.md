@@ -202,3 +202,4 @@ This plugin utilizes the following packages:
 - [Axn/laravel-eloquent-authorable](https://github.com/AXN-Informatique/laravel-eloquent-authorable)
 - [OptimistDigital/MenuBuilder](https://github.com/optimistdigital/nova-menu-builder)
 - [Epartment/NovaDependencyContainer](https://github.com/epartment/nova-dependency-container)
+- [Eminiarts/nova-tabs](https://github.com/eminiarts/nova-tabs)

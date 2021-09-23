@@ -9,6 +9,7 @@
   "require": {
     "php": "~7.4 | ~8.0",
     "axn/laravel-eloquent-authorable": "^5.1",
+    "eminiarts/nova-tabs": "^1.4",
     "epartment/nova-dependency-container": "^1.3",
     "gwd/seo-meta-nova-field": "^1.2",
     "laravel/nova": "^3.19",

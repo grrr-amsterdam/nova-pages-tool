@@ -3,6 +3,9 @@
 namespace Grrr\Pages\Resources;
 
 use App\Nova\User;
+use Eminiarts\Tabs\Tab;
+use Eminiarts\Tabs\Tabs;
+use Eminiarts\Tabs\TabsOnEdit;
 use Epartment\NovaDependencyContainer\HasDependencies;
 use Epartment\NovaDependencyContainer\NovaDependencyContainer;
 use Grrr\Pages\Models\Page as PageModel;
@@ -30,6 +33,7 @@ use Whitecube\NovaFlexibleContent\Flexible;
 class PageResource extends Resource
 {
     use HasDependencies;
+    use TabsOnEdit;
 
     /**
      * The relationships that should be eager loaded on index queries.
@@ -231,95 +235,100 @@ class PageResource extends Resource
         }
 
         return [
-            (new Panel(__('pages::pages.panels.basic'), [
-                Text::make(__('pages::pages.fields.title'), 'title')->rules(
-                    'required'
-                ),
+            Tabs::make('', [
+                Tab::make(__('pages::pages.panels.basic'), [
+                    Text::make(__('pages::pages.fields.title'), 'title')->rules(
+                        'required'
+                    ),
 
-                Slug::make(__('pages::pages.fields.slug'), 'slug')
-                    ->from('title')
-                    ->default('')
-                    ->help(__('pages::pages.fields.slugHelp'))
-                    ->hideFromIndex(),
+                    Slug::make(__('pages::pages.fields.slug'), 'slug')
+                        ->from('title')
+                        ->default('')
+                        ->help(__('pages::pages.fields.slugHelp'))
+                        ->hideFromIndex(),
 
-                Text::make(__('pages::pages.fields.url'), 'url')
-                    ->hideWhenCreating()
-                    ->hideWhenUpdating()
-                    // @todo Make this configurable, because in headless CMS setups,
-                    // this should not link to this server.
-                    ->displayUsing(
-                        fn(string $url) => "<a href=\"{$url}\">{$url}</a>"
-                    )
-                    ->asHtml(),
+                    Text::make(__('pages::pages.fields.url'), 'url')
+                        ->hideWhenCreating()
+                        ->hideWhenUpdating()
+                        // @todo Make this configurable, because in headless CMS setups,
+                        // this should not link to this server.
+                        ->displayUsing(
+                            fn(string $url) => "<a href=\"{$url}\">{$url}</a>"
+                        )
+                        ->asHtml(),
 
-                Select::make(__('pages::pages.fields.parent'), 'parent_id')
-                    ->options(
-                        self::getPageOptionsForSelect($this->model()->getKey())
-                    )
-                    ->displayUsingLabels(),
+                    Select::make(__('pages::pages.fields.parent'), 'parent_id')
+                        ->options(
+                            self::getPageOptionsForSelect(
+                                $this->model()->getKey()
+                            )
+                        )
+                        ->displayUsingLabels(),
 
-                Select::make(__('pages::pages.fields.status'), 'status')
-                    ->options($this->getPageStatusOptions())
-                    ->rules('required')
-                    ->onlyOnForms()
-                    ->default($this->getDefaultPageStatus()),
+                    Select::make(__('pages::pages.fields.status'), 'status')
+                        ->options($this->getPageStatusOptions())
+                        ->rules('required')
+                        ->onlyOnForms()
+                        ->default($this->getDefaultPageStatus()),
 
-                Select::make(__('pages::pages.fields.language'), 'language')
-                    ->required()
-                    ->hideFromIndex()
-                    ->options($this->getLanguageOptions())
-                    ->default($this->getDefaultLanguage()),
-
-                DateTime::make(
-                    __('pages::pages.fields.created_at'),
-                    'created_at'
-                )
-                    ->readonly()
-                    ->onlyOnDetail(),
-
-                DateTime::make(
-                    __('pages::pages.fields.updated_at'),
-                    'updated_at'
-                )
-                    ->readonly()
-                    ->onlyOnDetail(),
-
-                BelongsTo::make(
-                    __('pages::pages.fields.created_by'),
-                    'createdBy',
-                    $this->getUserResourceClass()
-                )
-                    ->readonly()
-                    ->onlyOnDetail(),
-
-                BelongsTo::make(
-                    __('pages::pages.fields.updated_by'),
-                    'updatedBy',
-                    User::class,
-                    $this->getUserResourceClass()
-                )
-                    ->readonly()
-                    ->onlyOnDetail(),
-            ]))->withToolbar(),
-
-            new Panel(
-                __('pages::pages.panels.template'),
-                collect([
-                    Select::make(__('pages::pages.fields.template'), 'template')
+                    Select::make(__('pages::pages.fields.language'), 'language')
                         ->required()
                         ->hideFromIndex()
-                        ->options($this->getPageTemplates())
-                        ->default($this->getDefaultPageTemplate()),
-                ])
-                    ->concat($this->getTemplateDependentFields())
-                    ->all()
-            ),
+                        ->options($this->getLanguageOptions())
+                        ->default($this->getDefaultLanguage()),
+                    DateTime::make(
+                        __('pages::pages.fields.created_at'),
+                        'created_at'
+                    )
+                        ->readonly()
+                        ->onlyOnDetail(),
 
-            new Panel(__('pages::pages.panels.content'), [$flexible]),
+                    DateTime::make(
+                        __('pages::pages.fields.updated_at'),
+                        'updated_at'
+                    )
+                        ->readonly()
+                        ->onlyOnDetail(),
 
-            new Panel(__('pages::pages.panels.seo'), [
-                SeoMeta::make(__('pages::pages.fields.seo'), 'seo_meta'),
-            ]),
+                    BelongsTo::make(
+                        __('pages::pages.fields.created_by'),
+                        'createdBy',
+                        $this->getUserResourceClass()
+                    )
+                        ->readonly()
+                        ->onlyOnDetail(),
+
+                    BelongsTo::make(
+                        __('pages::pages.fields.updated_by'),
+                        'updatedBy',
+                        User::class,
+                        $this->getUserResourceClass()
+                    )
+                        ->readonly()
+                        ->onlyOnDetail(),
+                ]),
+                Tab::make(
+                    __('pages::pages.panels.template'),
+                    collect([
+                        Select::make(
+                            __('pages::pages.fields.template'),
+                            'template'
+                        )
+                            ->required()
+                            ->hideFromIndex()
+                            ->options($this->getPageTemplates())
+                            ->default($this->getDefaultPageTemplate()),
+                    ])
+                        ->concat($this->getTemplateDependentFields())
+                        ->all()
+                ),
+
+                Tab::make(__('pages::pages.panels.content'), [$flexible]),
+
+                Tab::make(__('pages::pages.panels.seo'), [
+                    SeoMeta::make(__('pages::pages.fields.seo'), 'seo_meta'),
+                ]),
+            ])->withToolbar(),
         ];
     }
 

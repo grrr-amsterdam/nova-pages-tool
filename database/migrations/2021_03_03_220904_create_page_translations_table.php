@@ -13,7 +13,7 @@ class CreatePageTranslationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('grrr_nova_page_translation', function (
+        Schema::create('grrr_nova_page_translations', function (
             Blueprint $table
         ) {
             $table->id();
@@ -30,6 +30,6 @@ class CreatePageTranslationsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('grrr_nova_page_translation');
+        Schema::dropIfExists('grrr_nova_page_translations');
     }
 }

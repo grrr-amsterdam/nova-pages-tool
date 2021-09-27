@@ -26,6 +26,7 @@ return [
         'created_by' => 'Aangemaakt door',
         'updated_by' => 'Aangepast door',
         'seo' => 'SEO',
+        'translations' => 'Vertalingen',
     ],
     'panels' => [
         'basic' => 'Basisinformatie',

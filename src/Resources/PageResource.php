@@ -28,6 +28,7 @@ use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
 use Laravel\Nova\Resource;
+use NovaAttachMany\AttachMany;
 use Whitecube\NovaFlexibleContent\Flexible;
 
 /**
@@ -312,8 +313,16 @@ class PageResource extends Resource
                         ->readonly()
                         ->onlyOnDetail(),
 
+                    // AttachMany is visible in the form.
+                    AttachMany::make(
+                        __('pages::pages.fields.translations'),
+                        'translations',
+                        self::class
+                    ),
+
+                    // BelongsToMany is visible on the detail view.
                     BelongsToMany::make(
-                        'Translations',
+                        __('pages::pages.fields.translations'),
                         'translations',
                         self::class
                     ),
@@ -343,6 +352,9 @@ class PageResource extends Resource
         ];
     }
 
+    /**
+     * Used to get translations.
+     */
     public static function relatablePages(
         NovaRequest $request,
         Builder $query,
@@ -354,10 +366,6 @@ class PageResource extends Resource
         }
         $model = $request->findModelOrFail($request->resourceId);
         $query->where('id', '!=', $model->id);
-
-        if ($field->attribute === 'parent') {
-            $query->where('language', $model->language);
-        }
 
         if ($field->attribute === 'translations') {
             $query->where('language', '!=', $model->language);

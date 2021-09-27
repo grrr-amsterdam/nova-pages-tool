@@ -160,7 +160,10 @@ class PageResource extends Resource
      */
     public function title(): string
     {
-        return $this->title . ' (' . $this->language . ')';
+        return $this->title .
+            (config('nova-pages-tool.allowTranslations')
+                ? ' (' . $this->language . ')'
+                : '');
     }
 
     public function fieldsForIndex(): array
@@ -342,6 +345,7 @@ class PageResource extends Resource
             )
                 ->showCounts()
                 ->showPreview();
+
             // BelongsToMany is visible on the detail view.
             $basicFields[] = BelongsToMany::make(
                 __('pages::pages.fields.translations'),

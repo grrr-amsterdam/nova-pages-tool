@@ -179,6 +179,13 @@ This will allow admins to choose a page from this Tool as a menu item.
 
 ## Multilingual support
 
+The way we offer multilingual support is by relating pages in differing languages together.  
+A page belongsToMany other pages, and that way you can offer a translation.
+
+We've tried various plugins for offering side-by-side translation in the same form (usually based on Spatie's Translatable package), but none of these proved without fault when combined with other packages like FlexibleContent.
+
+So this is a very lightweight, simple approach to multilinguality, but it can support large content sites.
+
 ## Rendering pages in the front-end
 
 At the time of writing this is not yet finished.  

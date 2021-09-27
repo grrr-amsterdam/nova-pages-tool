@@ -43,12 +43,8 @@ class Language extends Filter
      * @param  \Illuminate\Http\Request  $request
      * @return array
      */
-    public function options(Request $request)
+    public function options(Request $request): array
     {
-        return [
-            'English' => 'en',
-            'Nederlands' => 'nl',
-            'Deutsch' => 'de',
-        ];
+        return array_flip(config('nova-pages-tool.languages'));
     }
 }

@@ -31,6 +31,12 @@ public function tools(): array
 }
 ```
 
+You can publish the config file to customize the tool:
+
+```
+php artisan vendor:publish --provider="Grrr\Pages\ToolServiceProvider" --tag="config"
+```
+
 ## Usage and extension
 
 Out of the box you will get a Pages tool in your Nova back-end to manage pages. If everything is to your liking, you can just start using it as-is!
@@ -108,6 +114,14 @@ This works because we provide a `metadata` json field for the Page model. Using 
 
 This allows you to store arbitrary data with your pages without having to extend it with your own migrations (although you totally can of course!).
 
+### Configuration
+
+If you've published the configuration, you can customize settings in `config/nova-pages-tool.php`.  
+The following values are available:
+
+- `languages`: which languages are available in your application.
+- `defaultLanguage`: the default language.
+
 ### Other extensions
 
 A full list of methods that you are likely to want to customize is the following:
@@ -116,8 +130,6 @@ A full list of methods that you are likely to want to customize is the following
 - `getPageTemplates()`: to determine which templates to support as page property.
 - `getDefaultPageTemplate()`: to determine which template should be the default.
 - `getPageStatusOptions()`: to determine the default status of a page.
-- `getLanguageOptions()`: to determine which languages to support in your pages.
-- `getDefaultLanguage()`: defaults to `config('app.locale')`.
 
 #### Using your own model
 

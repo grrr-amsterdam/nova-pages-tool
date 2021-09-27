@@ -78,7 +78,7 @@ class Page extends Model
     {
         return $this->belongsToMany(
             self::class,
-            'grrr_nova_page_translation',
+            'grrr_nova_page_translations',
             'page_id',
             'translation_id'
         )->using(PageTranslation::class);

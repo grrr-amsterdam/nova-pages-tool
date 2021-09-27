@@ -5,7 +5,7 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
 
 class PageTranslation extends Pivot
 {
-    protected $table = 'grrr_nova_page_translation';
+    protected $table = 'grrr_nova_page_translations';
 
     protected $dispatchesEvents = [
         'created' => AttachedTranslation::class,

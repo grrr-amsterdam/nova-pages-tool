@@ -112,25 +112,15 @@ class PageTest extends TestCase
         $pageEn->translations()->attach($pageNl->id);
 
         $pageEn->refresh();
-        $this->assertCount(1, $pageEn->translations);
-        $this->assertInstanceOf(Page::class, $pageEn->translations->first());
-    }
-
-    /** @test */
-    public function setting_a_translation_goes_both_ways(): void
-    {
-        $pageEn = Page::factory()->create(['language' => 'en']);
-        $pageNl = Page::factory()->create(['language' => 'nl']);
-
-        $pageEn->translations()->attach($pageNl);
-
-        $pageEn->refresh();
         $pageNl->refresh();
 
         $this->assertCount(1, $pageEn->translations);
         $this->assertInstanceOf(Page::class, $pageEn->translations->first());
+        $this->assertTrue($pageNl->is($pageEn->translations->first()));
 
+        // Translations are added bidirectionally.
         $this->assertCount(1, $pageNl->translations);
         $this->assertInstanceOf(Page::class, $pageNl->translations->first());
+        $this->assertTrue($pageEn->is($pageNl->translations->first()));
     }
 }

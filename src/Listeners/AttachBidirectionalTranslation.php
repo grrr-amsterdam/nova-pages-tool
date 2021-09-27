@@ -4,10 +4,8 @@ namespace Grrr\Pages\Listeners;
 
 use Grrr\Pages\Events\AttachedTranslation;
 use Grrr\Pages\Models\PageTranslation;
-use Illuminate\Support\Facades\Log;
-use Symfony\Component\ErrorHandler\Debug;
 
-class AttachTranslationBothWays
+class AttachBidirectionalTranslation
 {
     public function __construct()
     {

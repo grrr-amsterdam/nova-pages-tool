@@ -1,6 +1,9 @@
 <?php
 
 return [
+    /**
+     * Use an empty array for unilingual websites.
+     */
     'languages' => [
         'nl' => 'Nederlands',
         'en' => 'English',

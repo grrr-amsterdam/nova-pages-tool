@@ -20,7 +20,6 @@ use Laravel\Nova\Fields\Badge;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\DateTime;
-use Laravel\Nova\Fields\Field;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Slug;
 use Laravel\Nova\Fields\Text;
@@ -118,23 +117,6 @@ class PageResource extends Resource
     public function getFlexiblePreset(): ?string
     {
         return null;
-    }
-
-    /**
-     * Extend this to provide your own template options.
-     */
-    public function getPageTemplates(): array
-    {
-        $options = [PageModel::TEMPLATE_DEFAULT];
-        return array_combine($options, $options);
-    }
-
-    /**
-     * Extend this to provide your own default template.
-     */
-    public function getDefaultPageTemplate(): string
-    {
-        return PageModel::TEMPLATE_DEFAULT;
     }
 
     /**
@@ -304,7 +286,7 @@ class PageResource extends Resource
                         __('pages::pages.fields.translations'),
                         'translations',
                         self::class
-                    ),
+                    )->showCounts()->showPreview(),
 
                     // BelongsToMany is visible on the detail view.
                     BelongsToMany::make(
@@ -316,19 +298,19 @@ class PageResource extends Resource
                 Tab::make(
                     __('pages::pages.panels.template'),
                     collect([
-                        Select::make(
-                            __('pages::pages.fields.template'),
-                            'template'
-                        )
+                        Select::make(__('pages::pages.fields.template'), 'template')
                             ->required()
                             ->hideFromIndex()
-                            ->options($this->getPageTemplates())
-                            ->default($this->getDefaultPageTemplate()),
+                            ->options(array_combine(
+                                config('nova-pages-tool.templates'),
+                                config('nova-pages-tool.templates')
+                            ))
+                            ->default(config('nova-pages-tool.defaultTemplate')),
                     ])
                         ->concat($this->getTemplateDependentFields())
                         ->all()
                 ),
-
+                
                 Tab::make(__('pages::pages.panels.content'), [$flexible]),
 
                 Tab::make(__('pages::pages.panels.seo'), [
@@ -352,6 +334,12 @@ class PageResource extends Resource
         NovaRequest $request,
         $query,
     ): Builder {
+        // TODO The usual order of pages is ->orderBy('url')->orderBy('title'), 
+        // but this field uses $this->title() to form the title, and will therefore
+        // omit the dashes ("-") to show the level of nesting. This makes ordering
+        // by URL really confusing.
+        $query
+            ->orderBy('title');
         if (!$request->resourceId) {
             return $query;
         }

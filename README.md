@@ -121,14 +121,14 @@ The following values are available:
 
 - `languages`: which languages are available in your application.
 - `defaultLanguage`: the default language.
+- `templates`: which templates are available for your pages.
+- `defaultTemplate`: the default template.
 
 ### Other extensions
 
 A full list of methods that you are likely to want to customize is the following:
 
 - `getFlexibleLayouts()`: to determine which layouts to support in the flexible content.
-- `getPageTemplates()`: to determine which templates to support as page property.
-- `getDefaultPageTemplate()`: to determine which template should be the default.
 - `getPageStatusOptions()`: to determine the default status of a page.
 
 #### Using your own model

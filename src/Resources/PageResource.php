@@ -191,131 +191,24 @@ class PageResource extends Resource
 
     public function fields(Request $request): array
     {
-        $flexible = Flexible::make(__('pages::pages.fields.content'), 'content')
-            ->nullable()
-            ->collapsed();
-        // Collect layouts and add them to the field.
-        // Implementers should override getFlexibleLayouts() and provide their
-        // own layouts specific to their domain.
-        collect($this->getFlexibleLayouts())->each(
-            fn($args) => $flexible->addLayout(...(array) $args)
-        );
-        // Alternatively, or additively, allow a preset to be configured for this field.
-        $preset = $this->getFlexiblePreset();
-        if ($preset) {
-            $flexible->preset($preset);
-        }
-
         return [
             Tabs::make('', [
-                Tab::make(__('pages::pages.panels.basic'), [
-                    Text::make(__('pages::pages.fields.title'), 'title')->rules(
-                        'required'
-                    ),
+                Tab::make(
+                    __('pages::pages.panels.basic'),
+                    $this->basicFields()
+                ),
 
-                    Slug::make(__('pages::pages.fields.slug'), 'slug')
-                        ->from('title')
-                        ->default('')
-                        ->help(__('pages::pages.fields.slugHelp'))
-                        ->hideFromIndex(),
-
-                    Text::make(__('pages::pages.fields.url'), 'url')
-                        ->hideWhenCreating()
-                        ->hideWhenUpdating()
-                        // @todo Make this configurable, because in headless CMS setups,
-                        // this should not link to this server.
-                        ->displayUsing(
-                            fn(string $url) => "<a href=\"{$url}\">{$url}</a>"
-                        )
-                        ->asHtml(),
-
-                    Select::make(__('pages::pages.fields.parent'), 'parent_id')
-                        ->options(
-                            self::getPageOptionsForSelect(
-                                $this->model()->getKey()
-                            )
-                        )
-                        ->displayUsingLabels(),
-
-                    Select::make(__('pages::pages.fields.status'), 'status')
-                        ->options($this->getPageStatusOptions())
-                        ->rules('required')
-                        ->onlyOnForms()
-                        ->default($this->getDefaultPageStatus()),
-
-                    Select::make(__('pages::pages.fields.language'), 'language')
-                        ->required()
-                        ->hideFromIndex()
-                        ->options(config('nova-pages-tool.languages'))
-                        ->default(config('nova-pages-tool.defaultLanguage'))
-                        ->displayUsingLabels(),
-
-                    DateTime::make(
-                        __('pages::pages.fields.created_at'),
-                        'created_at'
-                    )
-                        ->readonly()
-                        ->onlyOnDetail(),
-
-                    DateTime::make(
-                        __('pages::pages.fields.updated_at'),
-                        'updated_at'
-                    )
-                        ->readonly()
-                        ->onlyOnDetail(),
-
-                    BelongsTo::make(
-                        __('pages::pages.fields.created_by'),
-                        'createdBy',
-                        $this->getUserResourceClass()
-                    )
-                        ->readonly()
-                        ->onlyOnDetail(),
-
-                    BelongsTo::make(
-                        __('pages::pages.fields.updated_by'),
-                        'updatedBy',
-                        User::class,
-                        $this->getUserResourceClass()
-                    )
-                        ->readonly()
-                        ->onlyOnDetail(),
-
-                    // AttachMany is visible in the form.
-                    AttachMany::make(
-                        __('pages::pages.fields.translations'),
-                        'translations',
-                        self::class
-                    )->showCounts()->showPreview(),
-
-                    // BelongsToMany is visible on the detail view.
-                    BelongsToMany::make(
-                        __('pages::pages.fields.translations'),
-                        'translations',
-                        self::class
-                    ),
-                ]),
                 Tab::make(
                     __('pages::pages.panels.template'),
-                    collect([
-                        Select::make(__('pages::pages.fields.template'), 'template')
-                            ->required()
-                            ->hideFromIndex()
-                            ->options(array_combine(
-                                config('nova-pages-tool.templates'),
-                                config('nova-pages-tool.templates')
-                            ))
-                            ->default(config('nova-pages-tool.defaultTemplate')),
-                    ])
-                        ->concat($this->getTemplateDependentFields())
-                        ->all()
+                    $this->templateFields()
                 ),
-                
-                Tab::make(__('pages::pages.panels.content'), [$flexible]),
 
-                Tab::make(__('pages::pages.panels.seo'), [
-                    SeoMeta::make(__('pages::pages.fields.seo'), 'seo_meta'),
-                ]),
+                Tab::make(
+                    __('pages::pages.panels.content'),
+                    $this->contentFields()
+                ),
+
+                Tab::make(__('pages::pages.panels.seo'), $this->seoFields()),
             ])->withToolbar(),
         ];
     }
@@ -323,23 +216,20 @@ class PageResource extends Resource
     /**
      * Used to get available translations.
      * Note that this cannot be used to switch languages at runtime in the form.
-     * E.g. new pages will never be filtered by language because the 
+     * E.g. new pages will never be filtered by language because the
      * page is not saved yet and has no language.
-     * 
+     *
      * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @param  \Laravel\Nova\Fields\Field  $field
      */
-    public static function relatablePages(
-        NovaRequest $request,
-        $query,
-    ): Builder {
-        // TODO The usual order of pages is ->orderBy('url')->orderBy('title'), 
+    public static function relatablePages(NovaRequest $request, $query): Builder
+    {
+        // TODO The usual order of pages is ->orderBy('url')->orderBy('title'),
         // but this field uses $this->title() to form the title, and will therefore
         // omit the dashes ("-") to show the level of nesting. This makes ordering
         // by URL really confusing.
-        $query
-            ->orderBy('title');
+        $query->orderBy('title');
         if (!$request->resourceId) {
             return $query;
         }
@@ -376,6 +266,132 @@ class PageResource extends Resource
                 ];
             })
             ->toArray();
+    }
+
+    protected function basicFields(): array
+    {
+        $basicFields = [
+            Text::make(__('pages::pages.fields.title'), 'title')->rules(
+                'required'
+            ),
+
+            Slug::make(__('pages::pages.fields.slug'), 'slug')
+                ->from('title')
+                ->default('')
+                ->help(__('pages::pages.fields.slugHelp'))
+                ->hideFromIndex(),
+
+            Text::make(__('pages::pages.fields.url'), 'url')
+                ->hideWhenCreating()
+                ->hideWhenUpdating()
+                // @todo Make this configurable, because in headless CMS setups,
+                // this should not link to this server.
+                ->displayUsing(
+                    fn(string $url) => "<a href=\"{$url}\">{$url}</a>"
+                )
+                ->asHtml(),
+
+            Select::make(__('pages::pages.fields.parent'), 'parent_id')
+                ->options(self::getPageOptionsForSelect())
+                ->displayUsingLabels(),
+
+            Select::make(__('pages::pages.fields.status'), 'status')
+                ->options($this->getPageStatusOptions())
+                ->rules('required')
+                ->onlyOnForms()
+                ->default($this->getDefaultPageStatus()),
+
+            Select::make(__('pages::pages.fields.language'), 'language')
+                ->required()
+                ->hideFromIndex()
+                ->options(config('nova-pages-tool.languages'))
+                ->default(config('nova-pages-tool.defaultLanguage'))
+                ->displayUsingLabels(),
+
+            DateTime::make(__('pages::pages.fields.created_at'), 'created_at')
+                ->readonly()
+                ->onlyOnDetail(),
+
+            DateTime::make(__('pages::pages.fields.updated_at'), 'updated_at')
+                ->readonly()
+                ->onlyOnDetail(),
+
+            BelongsTo::make(
+                __('pages::pages.fields.created_by'),
+                'createdBy',
+                $this->getUserResourceClass()
+            )
+                ->readonly()
+                ->onlyOnDetail(),
+
+            BelongsTo::make(
+                __('pages::pages.fields.updated_by'),
+                'updatedBy',
+                User::class,
+                $this->getUserResourceClass()
+            )
+                ->readonly()
+                ->onlyOnDetail(),
+        ];
+        if (config('nova-pages-tool.allowTranslations')) {
+            // AttachMany is visible in the form.
+            $basicFields[] = AttachMany::make(
+                __('pages::pages.fields.translations'),
+                'translations',
+                self::class
+            )
+                ->showCounts()
+                ->showPreview();
+            // BelongsToMany is visible on the detail view.
+            $basicFields[] = BelongsToMany::make(
+                __('pages::pages.fields.translations'),
+                'translations',
+                self::class
+            );
+        }
+        return $basicFields;
+    }
+
+    protected function templateFields(): array
+    {
+        return collect([
+            Select::make(__('pages::pages.fields.template'), 'template')
+                ->required()
+                ->hideFromIndex()
+                ->options(
+                    array_combine(
+                        config('nova-pages-tool.templates'),
+                        config('nova-pages-tool.templates')
+                    )
+                )
+                ->default(config('nova-pages-tool.defaultTemplate')),
+        ])
+            ->concat($this->getTemplateDependentFields())
+            ->all();
+    }
+
+    protected function contentFields(): array
+    {
+        $flexible = Flexible::make(__('pages::pages.fields.content'), 'content')
+            ->nullable()
+            ->collapsed();
+        // Collect layouts and add them to the field.
+        // Implementers should override getFlexibleLayouts() and provide their
+        // own layouts specific to their domain.
+        collect($this->getFlexibleLayouts())->each(
+            fn($args) => $flexible->addLayout(...(array) $args)
+        );
+        // Alternatively, or additively, allow a preset to be configured for this field.
+        $preset = $this->getFlexiblePreset();
+        if ($preset) {
+            $flexible->preset($preset);
+        }
+        return [$flexible];
+    }
+
+    protected function seoFields(): array
+    {
+        return [SeoMeta::make(__('pages::pages.fields.seo'), 'seo_meta')];
     }
 
     /**

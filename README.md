@@ -121,6 +121,7 @@ The following values are available:
 
 - `languages`: which languages are available in your application.
 - `defaultLanguage`: the default language.
+- `allowTranslations`: whether to enable the Translations widget in the edit form. Unilingual websites generally don't need this.
 - `templates`: which templates are available for your pages.
 - `defaultTemplate`: the default template.
 

@@ -339,25 +339,26 @@ class PageResource extends Resource
     }
 
     /**
-     * Used to get translations.
+     * Used to get available translations.
+     * Note that this cannot be used to switch languages at runtime in the form.
+     * E.g. new pages will never be filtered by language because the 
+     * page is not saved yet and has no language.
+     * 
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  \Laravel\Nova\Fields\Field  $field
      */
     public static function relatablePages(
         NovaRequest $request,
-        Builder $query,
-        Field $field
+        $query,
     ): Builder {
-        // @todo How can we test this?
         if (!$request->resourceId) {
             return $query;
         }
         $model = $request->findModelOrFail($request->resourceId);
-        $query->where('id', '!=', $model->id);
-
-        if ($field->attribute === 'translations') {
-            $query->where('language', '!=', $model->language);
-        }
-
-        return $query;
+        return $query
+            ->where('id', '!=', $model->id)
+            ->where('language', '!=', $model->language);
     }
 
     /**
@@ -419,6 +420,11 @@ class PageResource extends Resource
         }
     }
 
+    /**
+     * Create NovaDependencyContainers for every template that offers
+     * dependent fields.
+     * These will become visible in the form after switching templates.
+     */
     protected function getTemplateDependentFields(): array
     {
         return collect($this->getPageTemplates())

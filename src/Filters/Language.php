@@ -32,9 +32,9 @@ class Language extends Filter
      *
      * @return string
      */
-    public function default(): string
+    public function default(): ?string
     {
-        return 'en';
+        return null;
     }
 
     /**

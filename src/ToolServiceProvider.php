@@ -24,11 +24,14 @@ class ToolServiceProvider extends ServiceProvider
         $this->loadTranslationsFrom(__DIR__ . '/../resources/lang/', 'pages');
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations/');
 
-        $this->publishes([
-            __DIR__ . '/../config/nova-pages-tool.php' => config_path(
-                'nova-pages-tool.php'
-            ),
-        ]);
+        $this->publishes(
+            [
+                __DIR__ . '/../config/nova-pages-tool.php' => config_path(
+                    'nova-pages-tool.php'
+                ),
+            ],
+            'config'
+        );
 
         // Handle a page's URL composition.
         Event::listen(SavingPage::class, [UpdatePageUrl::class, 'handle']);

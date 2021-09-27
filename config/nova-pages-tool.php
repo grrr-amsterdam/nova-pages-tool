@@ -2,9 +2,8 @@
 
 return [
     'languages' => [
-        'en' => 'English',
-        'fr' => 'Français',
         'nl' => 'Nederlands',
+        'en' => 'English',
     ],
-    'defaultLanguage' => 'en',
+    'defaultLanguage' => 'nl',
 ];

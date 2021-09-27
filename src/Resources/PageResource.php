@@ -161,22 +161,6 @@ class PageResource extends Resource
     }
 
     /**
-     * Extend this to provide your own language options.
-     */
-    public function getLanguageOptions(): array
-    {
-        return config('nova-pages-tool.languages');
-    }
-
-    /**
-     * Extend this to provide your own default language.
-     */
-    public function getDefaultLanguage(): string
-    {
-        return config('nova-pages-tool.defaultLanguage');
-    }
-
-    /**
      * Extend this to use your own User resource.
      * Note that this is used to resolve "createdBy" and "updatedBy" relations
      * and probably also needs changes to the migration and model if this is
@@ -280,8 +264,10 @@ class PageResource extends Resource
                     Select::make(__('pages::pages.fields.language'), 'language')
                         ->required()
                         ->hideFromIndex()
-                        ->options($this->getLanguageOptions())
-                        ->default($this->getDefaultLanguage()),
+                        ->options(config('nova-pages-tool.languages'))
+                        ->default(config('nova-pages-tool.defaultLanguage'))
+                        ->displayUsingLabels(),
+
                     DateTime::make(
                         __('pages::pages.fields.created_at'),
                         'created_at'

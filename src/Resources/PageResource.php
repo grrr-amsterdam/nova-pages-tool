@@ -253,7 +253,9 @@ class PageResource extends Resource
                     ->asHtml(),
 
                 Select::make(__('pages::pages.fields.parent'), 'parent_id')
-                    ->options(self::getPageOptionsForSelect())
+                    ->options(
+                        self::getPageOptionsForSelect($this->model()->getKey())
+                    )
                     ->displayUsingLabels(),
 
                 Select::make(__('pages::pages.fields.status'), 'status')
@@ -337,11 +339,18 @@ class PageResource extends Resource
      * Create an ordered set of pages, to be used in Select-type fields in Nova.
      * This can be used in userland-provided resources that need to link to
      * pages, for instance.
+     *
+     * @param ?string $withoutId Omit this page id from the result
      */
-    public static function getPageOptionsForSelect(): array
-    {
+    public static function getPageOptionsForSelect(
+        ?string $withoutId = null
+    ): array {
         return PageModel::query()
             ->select(['title', 'url', 'id'])
+            ->when(
+                $withoutId,
+                fn($builder) => $builder->where('id', '!=', $withoutId)
+            )
             ->orderBy('url')
             ->orderBy('title')
             ->cursor()

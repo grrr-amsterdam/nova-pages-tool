@@ -1,0 +1,20 @@
+# Changelog
+
+## Version 2.0.0
+
+- We moved some configuration values to the config file. Publish the config file using:
+
+```
+php artisan vendor:publish --provider="Grrr\Pages\ToolServiceProvider" --tag="config"
+```
+
+If you implemented `getPageTemplates()` or `getLanguageOptions()` in your `Page` resource, move those options to `config/nova-pages-tool.php`.  
+For unilingual sites, configure `allowTranslations` to `false`.
+
+## Version 1.0.1
+
+- Moves away from panels and divides content into tabs. Shouldn't be a breaking change, but is obviously a very impactful visual change.
+
+## Version 1.0.0
+
+- This adds the `metadata` field to all pages. Use this to store template-specific data.

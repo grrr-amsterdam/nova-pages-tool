@@ -66,18 +66,18 @@ class Page extends Model
 
     public function parent(): BelongsTo
     {
-        return $this->belongsTo(self::class, 'parent_id');
+        return $this->belongsTo(static::class, 'parent_id');
     }
 
     public function children(): HasMany
     {
-        return $this->hasMany(self::class, 'parent_id');
+        return $this->hasMany(static::class, 'parent_id');
     }
 
     public function translations(): BelongsToMany
     {
         return $this->belongsToMany(
-            self::class,
+            static::class,
             'grrr_nova_page_translations',
             'page_id',
             'translation_id'

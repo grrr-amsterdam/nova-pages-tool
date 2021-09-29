@@ -226,7 +226,7 @@ class PageResource extends Resource
      * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @param  \Laravel\Nova\Fields\Field  $field
      */
-    public static function relatablePages(NovaRequest $request, $query): Builder
+    public static function relatablePages(NovaRequest $request, $query)
     {
         // TODO The usual order of pages is ->orderBy('url')->orderBy('title'),
         // but this field uses $this->title() to form the title, and will therefore
@@ -435,7 +435,7 @@ class PageResource extends Resource
      */
     protected function getTemplateDependentFields(): array
     {
-        return collect($this->getPageTemplates())
+        return collect(config('nova-pages-tool.templates'))
             ->filter(
                 fn(string $templateName) => method_exists(
                     $this,

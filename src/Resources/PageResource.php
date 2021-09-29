@@ -8,7 +8,7 @@ use Eminiarts\Tabs\Tabs;
 use Eminiarts\Tabs\TabsOnEdit;
 use Epartment\NovaDependencyContainer\HasDependencies;
 use Epartment\NovaDependencyContainer\NovaDependencyContainer;
-use Grrr\Pages\Filters\Language;
+use Grrr\Pages\Filters;
 use Grrr\Pages\Models\Page as PageModel;
 use Gwd\SeoMeta\SeoMeta;
 use Illuminate\Database\Eloquent\Builder;
@@ -85,7 +85,7 @@ class PageResource extends Resource
 
     public function filters(Request $request)
     {
-        return [new Language()];
+        return [new Filters\Language(), new Filters\Template()];
     }
 
     /**

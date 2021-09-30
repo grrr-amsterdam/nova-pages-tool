@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Laravel\Nova\Actions\Actionable;
+use Whitecube\NovaFlexibleContent\Concerns\HasFlexible;
 use Whitecube\NovaFlexibleContent\Value\FlexibleCast;
 
 /**
@@ -30,10 +31,11 @@ use Whitecube\NovaFlexibleContent\Value\FlexibleCast;
  */
 class Page extends Model
 {
-    use HasFactory;
-    use SeoMetaTrait;
-    use AuthorableTrait;
     use Actionable;
+    use AuthorableTrait;
+    use HasFactory;
+    use HasFlexible;
+    use SeoMetaTrait;
 
     const STATUS_PUBLISHED = 'PUBLISHED';
     const STATUS_DRAFT = 'DRAFT';

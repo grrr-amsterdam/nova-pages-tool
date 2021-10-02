@@ -19,7 +19,8 @@ use Whitecube\NovaFlexibleContent\Value\FlexibleCast;
 
 /**
  * @property Collection $children
- * @property string $content
+ * @property array $content
+ * @property array $metadata
  * @property int $id
  * @property string $language
  * @property Page $parent
@@ -28,6 +29,8 @@ use Whitecube\NovaFlexibleContent\Value\FlexibleCast;
  * @property string $template
  * @property string $title
  * @property string $url
+ * @property \DateTime $created_at
+ * @property \DateTime $updated_at
  */
 class Page extends Model
 {

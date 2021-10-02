@@ -6,6 +6,7 @@ use Axn\EloquentAuthorable\AuthorableTrait;
 use Grrr\Pages\Database\Factories\PageFactory;
 use Grrr\Pages\Events\SavingPage;
 use Grrr\Pages\Events\SavedPage;
+use Gwd\SeoMeta\Models\SeoMetaItem;
 use Gwd\SeoMeta\Traits\SeoMetaTrait;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -31,6 +32,7 @@ use Whitecube\NovaFlexibleContent\Value\FlexibleCast;
  * @property string $url
  * @property \DateTime $created_at
  * @property \DateTime $updated_at
+ * @property SeoMetaItem $seo_meta
  */
 class Page extends Model
 {

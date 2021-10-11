@@ -1,12 +1,19 @@
-# Nova Page module
-
 ![CI](https://github.com/grrr-amsterdam/nova-pages-tool/workflows/CI/badge.svg)
+
+# Nova Page module
 
 This tool allows you to manage pages in your app.
 
 It will take care of URL generation and contains some default fields for pages.
 
 You can easily extend this package's resource to modify its behavior.
+
+## Developed with ❤️ by [GRRR](https://grrr.nl)
+
+- GRRR is a [B Corp](https://grrr.nl/en/b-corp/)
+- GRRR has a [tech blog](https://grrr.tech/)
+- GRRR is [hiring](https://grrr.nl/en/jobs/)
+- [@GRRRTech](https://twitter.com/grrrtech) tweets
 
 ## Installation
 

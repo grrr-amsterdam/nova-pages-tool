@@ -296,6 +296,7 @@ class PageResource extends Resource
 
             Select::make(__('pages::pages.fields.parent'), 'parent_id')
                 ->options(self::getPageOptionsForSelect())
+                ->nullable()
                 ->displayUsingLabels(),
 
             Select::make(__('pages::pages.fields.status'), 'status')

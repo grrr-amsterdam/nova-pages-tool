@@ -194,7 +194,7 @@ class PageResource extends Resource
 
     public function fields(Request $request): array
     {
-        return [
+        $fields = [
             Tabs::make('', [
                 Tab::make(
                     __('pages::pages.panels.basic'),
@@ -214,6 +214,17 @@ class PageResource extends Resource
                 Tab::make(__('pages::pages.panels.seo'), $this->seoFields()),
             ])->withToolbar(),
         ];
+
+        if (config('nova-pages-tool.allowTranslations')) {
+            // BelongsToMany is visible on the detail view.
+            $fields[] = BelongsToMany::make(
+                __('pages::pages.fields.translations'),
+                'translations',
+                self::class
+            );
+        }
+
+        return $fields;
     }
 
     /**
@@ -346,13 +357,6 @@ class PageResource extends Resource
             )
                 ->showCounts()
                 ->showPreview();
-
-            // BelongsToMany is visible on the detail view.
-            $basicFields[] = BelongsToMany::make(
-                __('pages::pages.fields.translations'),
-                'translations',
-                self::class
-            );
         }
         return $basicFields;
     }

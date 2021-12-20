@@ -3,6 +3,7 @@
 namespace Tests\Unit\Models;
 
 use Grrr\Pages\Models\Page;
+use Grrr\Pages\Models\PageTranslation;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Schema;
 use OptimistDigital\MenuBuilder\Models\MenuItem;
@@ -175,5 +176,41 @@ class PageTest extends TestCase
 
         $menuItems = MenuItem::all();
         $this->assertCount(0, $menuItems);
+    }
+
+    /** @test */
+    public function translations_should_stay_in_sync(): void
+    {
+        $pageEn = Page::factory()->create(['language' => 'en']);
+        $pageNl = Page::factory()->create(['language' => 'nl']);
+        $anotherPageNl = Page::factory()->create(['language' => 'nl']);
+
+        $pageEn->translations()->attach($pageNl->id);
+
+        $pageEn->refresh();
+        $pageNl->refresh();
+
+        $pageEn->translations()->detach($pageNl->id);
+        $pageEn->translations()->attach($anotherPageNl->id);
+
+        $this->assertCount(0, $pageNl->translations);
+    }
+
+    /** @test */
+    public function translations_will_be_deleted_when_relations_are_removed(): void
+    {
+        $pageEn = Page::factory()->create(['language' => 'en']);
+        $pageNl = Page::factory()->create(['language' => 'nl']);
+
+        $pageEn->translations()->attach($pageNl->id);
+
+        $pageEn->refresh();
+        $this->assertCount(1, $pageEn->translations);
+        $this->assertCount(2, PageTranslation::all());
+
+        $pageNl->delete();
+        $pageEn->refresh();
+        $this->assertCount(0, $pageEn->translations);
+        $this->assertCount(0, PageTranslation::all());
     }
 }

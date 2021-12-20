@@ -27,6 +27,10 @@ abstract class TestCase extends BaseTestCase
             'database' => ':memory:',
             'prefix' => '',
         ]);
+        $app['config']->set(
+            'database.connections.sqlite.foreign_key_constraints',
+            true
+        );
         $app['config']->set('logging.default', 'stderr');
     }
 

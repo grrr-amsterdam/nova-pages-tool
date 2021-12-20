@@ -7,10 +7,6 @@ class PageTranslation extends Pivot
 {
     protected $table = 'grrr_nova_page_translations';
 
-    protected $dispatchesEvents = [
-        'created' => AttachedTranslation::class,
-    ];
-
     public function page()
     {
         return $this->belongsTo(Page::class);

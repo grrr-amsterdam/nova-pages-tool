@@ -10,6 +10,8 @@ use Grrr\Pages\Listeners\AttachBidirectionalTranslation;
 use Grrr\Pages\Listeners\UpdatePageUrl;
 use Grrr\Pages\Listeners\DeleteConnectedMenuItems;
 use Grrr\Pages\Listeners\UpdateChildPageUrls;
+use Grrr\Pages\Models\PageTranslation;
+use Grrr\Pages\Observers\PageTranslationObserver;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 
@@ -46,6 +48,13 @@ class ToolServiceProvider extends ServiceProvider
             AttachBidirectionalTranslation::class,
             'handle',
         ]);
+
+        PageTranslation::observe(PageTranslationObserver::class);
+
+        // Event::listen(AttachedTranslation::class, [
+        //     AttachBidirectionalTranslation::class,
+        //     'handle',
+        // ]);
     }
 
     /**

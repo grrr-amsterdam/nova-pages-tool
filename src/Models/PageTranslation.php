@@ -1,6 +1,5 @@
 <?php namespace Grrr\Pages\Models;
 
-use Grrr\Pages\Events\AttachedTranslation;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
 class PageTranslation extends Pivot

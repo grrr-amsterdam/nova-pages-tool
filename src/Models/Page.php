@@ -90,7 +90,9 @@ class Page extends Model
             'grrr_nova_page_translations',
             'page_id',
             'translation_id'
-        )->using(PageTranslation::class);
+        )
+            ->using(PageTranslation::class)
+            ->withTimestamps();
     }
 
     protected static function newFactory(): PageFactory

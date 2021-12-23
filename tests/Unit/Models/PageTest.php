@@ -205,12 +205,10 @@ class PageTest extends TestCase
         $pageEn->translations()->attach($pageNl->id);
 
         $pageEn->refresh();
-        $this->assertCount(1, $pageEn->translations);
-        $this->assertCount(2, PageTranslation::all());
+        $this->assertDatabaseCount('grrr_nova_page_translations', 2);
 
         $pageNl->delete();
         $pageEn->refresh();
-        $this->assertCount(0, $pageEn->translations);
-        $this->assertCount(0, PageTranslation::all());
+        $this->assertDatabaseCount('grrr_nova_page_translations', 0);
     }
 }

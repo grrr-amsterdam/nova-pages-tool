@@ -30,6 +30,7 @@ class CreatePagesTable extends Migration
             // Columns as used by axn/laravel-eloquent-authorable
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('updated_by')->nullable();
+
             $table
                 ->foreign('created_by')
                 ->references('id')
@@ -46,8 +47,7 @@ class CreatePagesTable extends Migration
             $table
                 ->foreignId('parent_id')
                 ->nullable()
-                ->references('id')
-                ->on('grrr_nova_pages');
+                ->constrained('grrr_nova_pages');
 
             // Create compound unique index on parent_id and slug: slugs can
             // only exist once at the same level.

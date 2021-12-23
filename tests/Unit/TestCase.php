@@ -29,13 +29,17 @@ abstract class TestCase extends BaseTestCase
 
     protected function defineDatabaseMigrations()
     {
-        // Since our migrations depends on the default laravel migrations, we
-        // cannot use the RefreshDatabase trait. Because that trait will wipe
-        // the default laravel mirgations.
-        // That is why we do a migrate and rollback here.
+        // Since our migrations depends on the default laravel migrations, we should load the
+        // Laravel migrations first. We cannot use the RefreshDatabase trait, because that
+        // trait will wipe the default Laravel migrations. This is why we do all the
+        // migrations and the rollback here instead of using the RefreshDatabase
+        // trait.
+
         $this->loadLaravelMigrations([
             '--database' => 'mysql',
         ]);
+
+        // Package migrations
         $this->artisan('migrate', ['--database' => 'mysql'])->run();
 
         $this->beforeApplicationDestroyed(function () {

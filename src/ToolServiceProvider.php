@@ -50,11 +50,6 @@ class ToolServiceProvider extends ServiceProvider
         ]);
 
         PageTranslation::observe(PageTranslationObserver::class);
-
-        // Event::listen(AttachedTranslation::class, [
-        //     AttachBidirectionalTranslation::class,
-        //     'handle',
-        // ]);
     }
 
     /**

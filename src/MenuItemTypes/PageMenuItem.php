@@ -77,7 +77,9 @@ class PageMenuItem extends BaseMenuItemType
         if (!static::$allPages) {
             static::$allPages = Page::query()->pluck('url', 'id');
         }
-        return isset($data['page']) ? static::$allPages[$data['page']] : null;
+        return isset($data['page']) && isset(static::$allPages[$data['page']])
+            ? static::$allPages[$data['page']]
+            : null;
     }
 
     /**

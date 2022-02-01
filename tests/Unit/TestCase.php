@@ -5,6 +5,7 @@ namespace Tests\Unit;
 use Grrr\Pages\ToolServiceProvider;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use OptimistDigital\MenuBuilder\MenuBuilderServiceProvider;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase
@@ -32,11 +33,12 @@ abstract class TestCase extends BaseTestCase
     protected function setUp(): void
     {
         parent::setUp();
+
         $this->loadMigrationsFrom(__DIR__ . '../../../database/migrations');
     }
 
     protected function getPackageProviders($app)
     {
-        return [ToolServiceProvider::class];
+        return [ToolServiceProvider::class, MenuBuilderServiceProvider::class];
     }
 }

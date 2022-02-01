@@ -4,6 +4,7 @@ namespace Grrr\Pages\Models;
 
 use Axn\EloquentAuthorable\AuthorableTrait;
 use Grrr\Pages\Database\Factories\PageFactory;
+use Grrr\Pages\Events\DeletedPage;
 use Grrr\Pages\Events\SavingPage;
 use Grrr\Pages\Events\SavedPage;
 use Gwd\SeoMeta\Models\SeoMetaItem;
@@ -67,6 +68,7 @@ class Page extends Model
     protected $dispatchesEvents = [
         'saving' => SavingPage::class,
         'saved' => SavedPage::class,
+        'deleted' => DeletedPage::class,
     ];
 
     protected $guarded = [];

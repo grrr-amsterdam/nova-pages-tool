@@ -5,6 +5,7 @@ namespace Tests\Unit\Models;
 use Grrr\Pages\Models\Page;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Schema;
+use OptimistDigital\MenuBuilder\Models\MenuItem;
 use Tests\Unit\TestCase;
 
 class PageTest extends TestCase
@@ -122,5 +123,57 @@ class PageTest extends TestCase
         $this->assertCount(1, $pageNl->translations);
         $this->assertInstanceOf(Page::class, $pageNl->translations->first());
         $this->assertTrue($pageEn->is($pageNl->translations->first()));
+    }
+
+    /**
+     * @test
+     */
+    public function deleting_a_page_will_delete_menu_items(): void
+    {
+        // Prepare pages
+        $page1 = Page::factory()->create();
+        $page2 = Page::factory()->create();
+
+        // Create menu items
+        $menuItem1 = MenuItem::create([
+            'name' => 'One for page 1',
+            'locale' => 'nl',
+            'order' => 1,
+            'data' => ['page' => $page1->id],
+        ]);
+        $menuItem2 = MenuItem::create([
+            'name' => 'One for page 2',
+            'locale' => 'nl',
+            'order' => 2,
+            'data' => ['page' => $page2->id],
+        ]);
+        $menuItem3 = MenuItem::create([
+            'name' => 'Another one for page 2',
+            'locale' => 'nl',
+            'order' => 2,
+            'data' => ['page' => $page2->id],
+        ]);
+
+        // Sanity check.
+        $menuItems = MenuItem::all();
+        $this->assertCount(3, $menuItems);
+
+        // Start deleting pages.
+        $page1->delete();
+
+        $menuItems = MenuItem::all();
+        $this->assertCount(2, $menuItems);
+
+        $this->assertNotNull(
+            $menuItems->first(fn(MenuItem $item) => $item->is($menuItem2))
+        );
+        $this->assertNotNull(
+            $menuItems->first(fn(MenuItem $item) => $item->is($menuItem3))
+        );
+
+        $page2->delete();
+
+        $menuItems = MenuItem::all();
+        $this->assertCount(0, $menuItems);
     }
 }

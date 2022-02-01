@@ -3,10 +3,12 @@
 namespace Grrr\Pages;
 
 use Grrr\Pages\Events\AttachedTranslation;
+use Grrr\Pages\Events\DeletedPage;
 use Grrr\Pages\Events\SavingPage;
 use Grrr\Pages\Events\SavedPage;
 use Grrr\Pages\Listeners\AttachBidirectionalTranslation;
 use Grrr\Pages\Listeners\UpdatePageUrl;
+use Grrr\Pages\Listeners\DeleteConnectedMenuItems;
 use Grrr\Pages\Listeners\UpdateChildPageUrls;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
@@ -36,6 +38,10 @@ class ToolServiceProvider extends ServiceProvider
         // Handle a page's URL composition.
         Event::listen(SavingPage::class, [UpdatePageUrl::class, 'handle']);
         Event::listen(SavedPage::class, [UpdateChildPageUrls::class, 'handle']);
+        Event::listen(DeletedPage::class, [
+            DeleteConnectedMenuItems::class,
+            'handle',
+        ]);
         Event::listen(AttachedTranslation::class, [
             AttachBidirectionalTranslation::class,
             'handle',

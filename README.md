@@ -210,6 +210,10 @@ Contributions are always welcome!
 
 You can fork this repo, run `composer install` and `npm install` and start hacking away.
 
+### Setup testing environment
+
+In this repo we have a `phpunit.xml.dist` file with environment variables set up for our CI flow. This can be overwritten by you own `phpunit.xml` file.
+
 ### Code quality assurance
 
 Please make sure the tests pass, we use those to ensure everything keeps working.

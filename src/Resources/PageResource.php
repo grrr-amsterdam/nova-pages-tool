@@ -25,9 +25,8 @@ use Laravel\Nova\Fields\Slug;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Http\Requests\NovaRequest;
-use Laravel\Nova\Panel;
 use Laravel\Nova\Resource;
-use NovaAttachMany\AttachMany;
+use OptimistDigital\MultiselectField\Multiselect;
 use Whitecube\NovaFlexibleContent\Flexible;
 
 /**
@@ -244,6 +243,9 @@ class PageResource extends Resource
         // omit the dashes ("-") to show the level of nesting. This makes ordering
         // by URL really confusing.
         $query->orderBy('title');
+
+        // The Nova MultiSelect field will go through this method, but no resource information
+        // is added in the request. So this won't work with Nova MultiSelect.
         if (!$request->resourceId) {
             return $query;
         }
@@ -349,14 +351,12 @@ class PageResource extends Resource
                 ->onlyOnDetail(),
         ];
         if (config('nova-pages-tool.allowTranslations')) {
-            // AttachMany is visible in the form.
-            $basicFields[] = AttachMany::make(
+            $basicFields[] = Multiselect::make(
                 __('pages::pages.fields.translations'),
-                'translations',
-                self::class
+                'translations'
             )
-                ->showCounts()
-                ->showPreview();
+                ->belongsToMany(PageResource::class)
+                ->onlyOnForms();
         }
         return $basicFields;
     }

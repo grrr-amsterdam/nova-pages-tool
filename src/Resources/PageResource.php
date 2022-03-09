@@ -275,10 +275,11 @@ class PageResource extends Resource
             ->orderBy('title')
             ->cursor()
             ->mapWithKeys(function (PageModel $page) {
+                $novaPage = new self($page);
                 return [
                     $page->id =>
                         str_repeat('-', substr_count($page->url, '/') - 1) .
-                        " {$page->title}",
+                        " {$novaPage->title()}",
                 ];
             })
             ->toArray();

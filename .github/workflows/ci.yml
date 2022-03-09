@@ -9,25 +9,24 @@ jobs:
     runs-on: ubuntu-18.04
     strategy:
       matrix:
-        operating-system: ["ubuntu-latest"]
         php-versions: ["7.4", "8"]
 
-    env:
-      DB_DATABASE: nova_pages_tool_testing
-      DB_USER: root
-      DB_PASSWORD: root
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_DATABASE: nova_pages_tool_testing
+          MYSQL_ROOT_PASSWORD: root
+        ports:
+          - 3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
-      - name: Setup MySQL
-        run: |
-          sudo /etc/init.d/mysql start
-          mysql -e 'CREATE DATABASE ${{ env.DB_DATABASE }};' -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }}
-
       - uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-versions }}
 
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Get Composer Cache Directory
         id: composer-cache
@@ -50,6 +49,12 @@ jobs:
 
       - name: Run PHP tests
         run: composer test
+        env:
+          DB_HOST: 127.0.0.1
+          DB_PORT: ${{ job.services.mysql.ports['3306'] }}
+          DB_DATABASE: nova_pages_tool_testing
+          DB_USER: root
+          DB_PASSWORD: root
 
       - name: Upload logs
         uses: actions/upload-artifact@v2
@@ -62,11 +67,11 @@ jobs:
     name: Code style
     runs-on: ubuntu-18.04
     steps:
-      - uses: actions/setup-node@v1
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
         with:
           node-version: "12.x"
-
-      - uses: actions/checkout@v2
 
       - run: npm install
 

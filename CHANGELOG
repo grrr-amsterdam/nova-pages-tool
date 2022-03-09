@@ -1,5 +1,9 @@
 # Changelog
 
+## Version 2.1.0
+
+- `PageResource->title()` will be used instead of `Models\Page->title` to fill the page select options for menu items. This makes pages more reconnicable in the UI. And you can change the appearance in the page resource.
+
 ## Version 2.0.0
 
 - We moved some configuration values to the config file. Publish the config file using:

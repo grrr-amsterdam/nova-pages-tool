@@ -266,7 +266,6 @@ class PageResource extends Resource
         ?string $withoutId = null
     ): array {
         return PageModel::query()
-            ->select(['title', 'url', 'id'])
             ->when(
                 $withoutId,
                 fn($builder) => $builder->where('id', '!=', $withoutId)

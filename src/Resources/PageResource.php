@@ -308,7 +308,7 @@ class PageResource extends Resource
                 ->asHtml(),
 
             Select::make(__('pages::pages.fields.parent'), 'parent_id')
-                ->options(self::getPageOptionsForSelect())
+                ->options(static::getPageOptionsForSelect())
                 ->nullable()
                 ->displayUsingLabels(),
 

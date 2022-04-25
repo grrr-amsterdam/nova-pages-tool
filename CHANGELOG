@@ -1,5 +1,19 @@
 # Changelog
 
+## Version 2.2.0
+
+- Updated packages. Note that Nova Menu Builder requires an update to the config file.
+
+```
+'menu_item_types' => [
+  \OptimistDigital\MenuBuilder\MenuItemTypes\MenuItemTextType::class,
+  \OptimistDigital\MenuBuilder\MenuItemTypes\MenuItemStaticURLType::class,
+  // ...
+],
+```
+
+For more info, see [Release 6.0.0 of Nova Menu Builder](https://github.com/outl1ne/nova-menu-builder/releases/tag/6.0.0).
+
 ## Version 2.1.0
 
 - `PageResource->title()` will be used instead of `Models\Page->title` to fill the page select options for menu items. This makes pages more reconnicable in the UI. And you can change the appearance in the page resource.

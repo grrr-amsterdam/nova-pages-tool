@@ -7,7 +7,7 @@
   ],
   "license": "MIT",
   "require": {
-    "php": "~7.4 | ~8.0",
+    "php": "~8.0",
     "axn/laravel-eloquent-authorable": "^6.1",
     "eminiarts/nova-tabs": "^1.4",
     "epartment/nova-dependency-container": "^1.3",

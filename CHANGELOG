@@ -1,5 +1,9 @@
 # Changelog
 
+## Version 3.0.0
+
+- This package now requires PHP 8. In order to move up to new Laravel versions, this is the minimum version of PHP required.
+
 ## Version 2.2.0
 
 - Updated packages. Note that Nova Menu Builder requires an update to the config file.

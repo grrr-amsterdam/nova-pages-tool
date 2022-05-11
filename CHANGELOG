@@ -1,5 +1,9 @@
 # Changelog
 
+## Version 3.0.1
+
+- Add common Laravel traits Dispatchable and SerializesModels to events.
+
 ## Version 3.0.0
 
 - This package now requires PHP 8. In order to move up to new Laravel versions, this is the minimum version of PHP required.

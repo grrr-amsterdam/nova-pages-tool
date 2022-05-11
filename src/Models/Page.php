@@ -25,7 +25,7 @@ use Whitecube\NovaFlexibleContent\Value\FlexibleCast;
  * @property array $metadata
  * @property int $id
  * @property string $language
- * @property Page $parent
+ * @property Page|null $parent
  * @property string $slug
  * @property string $status
  * @property string $template

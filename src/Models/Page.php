@@ -21,7 +21,7 @@ use Whitecube\NovaFlexibleContent\Value\FlexibleCast;
 
 /**
  * @property Collection $children
- * @property Collection $content
+ * @property \Illuminate\Support\Collection $content
  * @property array $metadata
  * @property int $id
  * @property string $language

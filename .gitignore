@@ -9,3 +9,6 @@ composer.lock
 .DS_Store
 Thumbs.db
 phpunit.xml
+
+# License file for laravel nova
+/auth.json

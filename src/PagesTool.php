@@ -4,6 +4,7 @@ namespace Grrr\Pages;
 
 use Grrr\Pages\Resources\PageResource;
 use Illuminate\Http\Request;
+use Laravel\Nova\Menu\MenuSection;
 use Laravel\Nova\Nova;
 use Laravel\Nova\Tool;
 
@@ -16,18 +17,8 @@ class PagesTool extends Tool
      */
     public function boot()
     {
-        // TODO: Make page resource and model configurable, without extending classes.
-        // Nova::resources([PageResource::class]);
-    }
-
-    /**
-     * Build the view that renders the navigation links for the tool.
-     *
-     * @return \Illuminate\View\View
-     */
-    public function renderNavigation()
-    {
-        return view('pages::navigation');
+        // Nova::script('nova-netlify-deploy', __DIR__ . '/../dist/js/tool.js');
+        // Nova::style('nova-netlify-deploy', __DIR__ . '/../dist/css/tool.css');
     }
 
     /**

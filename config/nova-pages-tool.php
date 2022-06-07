@@ -1,5 +1,7 @@
 <?php
 
+use Grrr\Pages\Models\Page as PageModel;
+
 return [
     'languages' => [
         'nl' => 'Nederlands',
@@ -10,6 +12,6 @@ return [
     // Disable for unilingual websites.
     'allowTranslations' => true,
 
-    'templates' => [\Grrr\Pages\Models\Page::TEMPLATE_DEFAULT],
-    'defaultTemplate' => \Grrr\Pages\Models\Page::TEMPLATE_DEFAULT,
+    'templates' => [PageModel::TEMPLATE_DEFAULT],
+    'defaultTemplate' => PageModel::TEMPLATE_DEFAULT,
 ];

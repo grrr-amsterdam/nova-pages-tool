@@ -5,11 +5,11 @@ namespace Grrr\Pages\MenuItemTypes;
 use Grrr\Pages\Models\Page;
 use Grrr\Pages\Resources\PageResource;
 use Laravel\Nova\Fields\Select;
-use OptimistDigital\MenuBuilder\MenuItemTypes\BaseMenuItemType;
+use Outl1ne\MenuBuilder\MenuItemTypes\BaseMenuItemType;
 
 /**
- * This class can be used to combine this Tool with OptimistDigital/MenuBuilder.
- * @see https://novapackages.com/packages/optimistdigital/nova-menu-builder
+ * This class can be used to combine this Tool with Nova Menu Builder
+ * @see https://github.com/outl1ne/nova-menu-builder
  */
 class PageMenuItem extends BaseMenuItemType
 {

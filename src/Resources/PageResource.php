@@ -5,14 +5,11 @@ namespace Grrr\Pages\Resources;
 use App\Nova\User;
 use Eminiarts\Tabs\Tab;
 use Eminiarts\Tabs\Tabs;
-use Eminiarts\Tabs\TabsOnEdit;
-use Epartment\NovaDependencyContainer\HasDependencies;
-use Epartment\NovaDependencyContainer\NovaDependencyContainer;
+use Eminiarts\Tabs\Traits\HasTabs;
 use Grrr\Pages\Filters;
 use Grrr\Pages\Models\Page as PageModel;
 use Gwd\SeoMeta\SeoMeta;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
@@ -20,22 +17,25 @@ use Laravel\Nova\Fields\Badge;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\DateTime;
+use Laravel\Nova\Fields\Field;
+use Laravel\Nova\Fields\FormData;
+use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Slug;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Resource;
-use OptimistDigital\MultiselectField\Multiselect;
+use Outl1ne\MultiselectField\Multiselect;
 use Whitecube\NovaFlexibleContent\Flexible;
 
 /**
  * Resource for managing pages.
  */
-class PageResource extends Resource
+abstract class PageResource extends Resource
 {
-    use HasDependencies;
-    use TabsOnEdit;
+    // TODO: Make page resource and model configurable, without extending classes.
+    use HasTabs;
 
     /**
      * The relationships that should be eager loaded on index queries.
@@ -49,10 +49,14 @@ class PageResource extends Resource
     /**
      * This can be overridden by implementing the model() method, when
      * developers want to use a custom model.
+     *
+     * // TODO: Make model configurable, without extending classes.
+     * // And dont't use model() method since this won't be used by
+     * // \Laravel\Nova\Nova::newResourceFromModel() method.
      */
     public static $model = PageModel::class;
 
-    public static $displayInNavigation = false;
+    public static $displayInNavigation = true;
 
     public static function label(): string
     {
@@ -82,7 +86,7 @@ class PageResource extends Resource
         });
     }
 
-    public function filters(Request $request)
+    public function filters(NovaRequest $request)
     {
         return [new Filters\Language(), new Filters\Template()];
     }
@@ -191,7 +195,7 @@ class PageResource extends Resource
         ];
     }
 
-    public function fields(Request $request): array
+    public function fields(NovaRequest $request)
     {
         $fields = [
             Tabs::make('', [
@@ -199,19 +203,16 @@ class PageResource extends Resource
                     __('pages::pages.panels.basic'),
                     $this->basicFields()
                 ),
-
                 Tab::make(
                     __('pages::pages.panels.template'),
                     $this->templateFields()
                 ),
-
                 Tab::make(
                     __('pages::pages.panels.content'),
                     $this->contentFields()
                 ),
-
                 Tab::make(__('pages::pages.panels.seo'), $this->seoFields()),
-            ])->withToolbar(),
+            ]),
         ];
 
         if (config('nova-pages-tool.allowTranslations')) {
@@ -219,7 +220,7 @@ class PageResource extends Resource
             $fields[] = BelongsToMany::make(
                 __('pages::pages.fields.translations'),
                 'translations',
-                self::class
+                static::class
             );
         }
 
@@ -246,6 +247,7 @@ class PageResource extends Resource
 
         // The Nova MultiSelect field will go through this method, but no resource information
         // is added in the request. So this won't work with Nova MultiSelect.
+        // TODO: Check if this is still true.
         if (!$request->resourceId) {
             return $query;
         }
@@ -274,7 +276,7 @@ class PageResource extends Resource
             ->orderBy('title')
             ->cursor()
             ->mapWithKeys(function (PageModel $page) {
-                $novaPage = new self($page);
+                $novaPage = new static($page);
                 return [
                     $page->id =>
                         str_repeat('-', substr_count($page->url, '/') - 1) .
@@ -283,10 +285,10 @@ class PageResource extends Resource
             })
             ->toArray();
     }
-
     protected function basicFields(): array
     {
         $basicFields = [
+            ID::make()->sortable(),
             Text::make(__('pages::pages.fields.title'), 'title')->rules(
                 'required'
             ),
@@ -300,7 +302,7 @@ class PageResource extends Resource
             Text::make(__('pages::pages.fields.url'), 'url')
                 ->hideWhenCreating()
                 ->hideWhenUpdating()
-                // @todo Make this configurable, because in headless CMS setups,
+                // @TODO Make this configurable, because in headless CMS setups,
                 // this should not link to this server.
                 ->displayUsing(
                     fn(string $url) => "<a href=\"{$url}\">{$url}</a>"
@@ -350,21 +352,25 @@ class PageResource extends Resource
                 ->readonly()
                 ->onlyOnDetail(),
         ];
-        if (config('nova-pages-tool.allowTranslations')) {
-            $basicFields[] = Multiselect::make(
-                __('pages::pages.fields.translations'),
-                'translations'
-            )
-                ->belongsToMany(PageResource::class)
-                ->onlyOnForms();
-        }
+
+        // TODO: The followingn should be configurable, since we cannot use MultiSelect belongsToMany field
+        // if we don't use a Nova relation field for the same attribute.
+
+        // if (config('nova-pages-tool.allowTranslations')) {
+        //     $basicFields[] = Multiselect::make(
+        //         __('pages::pages.fields.translations'),
+        //         'translations'
+        //     )
+        //         ->belongsToMany(static::class)
+        //         ->onlyOnForms();
+        // }
         return $basicFields;
     }
 
     protected function templateFields(): array
     {
-        return collect([
-            Select::make(__('pages::pages.fields.template'), 'template')
+        $templateFields = collect([
+            Select::make('Template', 'template')
                 ->required()
                 ->hideFromIndex()
                 ->options(
@@ -377,6 +383,7 @@ class PageResource extends Resource
         ])
             ->concat($this->getTemplateDependentFields())
             ->all();
+        return $templateFields;
     }
 
     protected function contentFields(): array
@@ -433,33 +440,57 @@ class PageResource extends Resource
         }
     }
 
-    /**
-     * Create NovaDependencyContainers for every template that offers
-     * dependent fields.
-     * These will become visible in the form after switching templates.
-     */
     protected function getTemplateDependentFields(): array
     {
-        return collect(config('nova-pages-tool.templates'))
+        // $fields = [];
+        $fields = collect(config('nova-pages-tool.templates'))
             ->filter(
                 fn(string $templateName) => method_exists(
                     $this,
-                    "fieldsFor" . Str::studly($templateName)
+                    'fieldsFor' . Str::studly($templateName)
                 )
             )
             ->map(function (string $templateName) {
-                $method = "fieldsFor" . Str::studly($templateName);
+                $method = 'fieldsFor' . Str::studly($templateName);
                 $fields = $this->$method();
                 if (!is_array($fields)) {
                     throw new \Exception(
                         "Unable to deduce template-specific fields for method {$method}."
                     );
                 }
-                return NovaDependencyContainer::make($fields)->dependsOn(
-                    'template',
-                    $templateName
+                collect($fields)->each(
+                    fn($field) => $this->makeTemplateDependentField(
+                        $field,
+                        $templateName
+                    )
                 );
+
+                return $fields;
             })
-            ->all();
+            ->flatten()
+            ->toArray();
+        return $fields;
+    }
+
+    protected function makeTemplateDependentField(
+        Field $field,
+        string $templateName
+    ) {
+        // TODO: Check if fields got the SupportsDependentFields trait
+
+        // Make every field dependent on the template by hiding and showing
+        // https://github.com/laravel/nova-issues/issues/4170
+        $field
+            ->onlyOnForms() // Because depends on logic will not be applied on detail view
+            ->hide()
+            ->dependsOn(['template'], function (
+                $field,
+                NovaRequest $request,
+                FormData $formData
+            ) use ($templateName) {
+                if ($formData->template === $templateName) {
+                    $field->show();
+                }
+            });
     }
 }

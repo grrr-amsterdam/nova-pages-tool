@@ -6,7 +6,7 @@ use Grrr\Pages\Models\Page;
 use Grrr\Pages\Models\PageTranslation;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Schema;
-use OptimistDigital\MenuBuilder\Models\MenuItem;
+use Outl1ne\MenuBuilder\Models\MenuItem;
 use Tests\Unit\TestCase;
 
 class PageTest extends TestCase

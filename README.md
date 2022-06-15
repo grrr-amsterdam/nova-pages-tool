@@ -46,10 +46,11 @@ php artisan vendor:publish --provider="Grrr\Pages\ToolServiceProvider" --tag="co
 
 ## Usage and extension
 
-Out of the box you will get a Pages tool in your Nova back-end to manage pages. If everything is to your liking, you can just start using it as-is!
+You can create your own `Page` resource and extend `Grrr\Pages\Resources\PageResource`. By default
+the `Grrr\Pages\Models\Page` model is registered. You can overwrite the model for the page resource
+by
 
-However, you will probably want to add some layouts to be used in the flexible-content portion of the page.
-You can create your own `Page` resource and extend `Grrr\Pages\Resources\PageResource`. Override the `getFlexibleLayouts()` method to specify your own flexible content layouts:
+Override the `getFlexibleLayouts()` method to specify your own flexible content layouts:
 
 ```php
 namespace App\Nova;
@@ -138,17 +139,6 @@ A full list of methods that you are likely to want to customize is the following
 
 - `getFlexibleLayouts()`: to determine which layouts to support in the flexible content.
 - `getPageStatusOptions()`: to determine the default status of a page.
-
-#### Using your own model
-
-You can override the `model()` method of the resource to return the class to your own `Page` model:
-
-```php
-public function model(): string
-{
-    return \App\Models\Page::class;
-}
-```
 
 #### Using a custom User resource
 

@@ -5,6 +5,7 @@ namespace Grrr\Pages\Resources;
 use App\Nova\User;
 use Eminiarts\Tabs\Tab;
 use Eminiarts\Tabs\Tabs;
+use Eminiarts\Tabs\Traits\HasActionsInTabs;
 use Eminiarts\Tabs\Traits\HasTabs;
 use Grrr\Pages\Filters;
 use Grrr\Pages\Models\Page as PageModel;
@@ -34,7 +35,6 @@ use Whitecube\NovaFlexibleContent\Flexible;
  */
 abstract class PageResource extends Resource
 {
-    // TODO: Make page resource and model configurable, without extending classes.
     use HasTabs;
 
     /**
@@ -46,17 +46,9 @@ abstract class PageResource extends Resource
 
     public static $search = ['title', 'url'];
 
-    /**
-     * This can be overridden by implementing the model() method, when
-     * developers want to use a custom model.
-     *
-     * // TODO: Make model configurable, without extending classes.
-     * // And dont't use model() method since this won't be used by
-     * // \Laravel\Nova\Nova::newResourceFromModel() method.
-     */
-    public static $model = PageModel::class;
-
     public static $displayInNavigation = true;
+
+    public static $model = PageModel::class;
 
     public static function label(): string
     {
@@ -198,7 +190,7 @@ abstract class PageResource extends Resource
     public function fields(NovaRequest $request)
     {
         $fields = [
-            Tabs::make(__('pages::pages.singularLabel'), [
+            Tabs::make(__(':resource Details: :title', ['resource' => $this->singularLabel(), 'title' => (string) $this->title(),]), [
                 Tab::make(
                     __('pages::pages.panels.basic'),
                     $this->basicFields()
@@ -212,7 +204,7 @@ abstract class PageResource extends Resource
                     $this->contentFields()
                 ),
                 Tab::make(__('pages::pages.panels.seo'), $this->seoFields()),
-            ]),
+            ])->withToolbar()->showTitle(),
         ];
 
         if (config('nova-pages-tool.allowTranslations')) {

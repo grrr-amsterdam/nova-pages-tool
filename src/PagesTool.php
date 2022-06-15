@@ -17,6 +17,7 @@ class PagesTool extends Tool
      */
     public function boot()
     {
+        // Uncomment the following lines to add scripts and styles to the tool
         // Nova::script('nova-netlify-deploy', __DIR__ . '/../dist/js/tool.js');
         // Nova::style('nova-netlify-deploy', __DIR__ . '/../dist/css/tool.css');
     }
@@ -31,4 +32,5 @@ class PagesTool extends Tool
     {
         return null;
     }
+
 }

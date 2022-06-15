@@ -1,7 +1,6 @@
 <?php
 
-use Grrr\Pages\Models\Page as PageModel;
-
+// TODO: Replace config names to lowercase, since this is the convention.
 return [
     'languages' => [
         'nl' => 'Nederlands',
@@ -12,6 +11,8 @@ return [
     // Disable for unilingual websites.
     'allowTranslations' => true,
 
-    'templates' => [PageModel::TEMPLATE_DEFAULT],
-    'defaultTemplate' => PageModel::TEMPLATE_DEFAULT,
+    'templates' => [\Grrr\Pages\Models\Page::TEMPLATE_DEFAULT],
+    'defaultTemplate' => \Grrr\Pages\Models\Page::TEMPLATE_DEFAULT,
+    'page_model_class' => \Grrr\Pages\Models\Page::class,
+    'page_resource_class' => \Grrr\Pages\Resources\PageResource::class,
 ];

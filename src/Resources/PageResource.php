@@ -198,7 +198,7 @@ abstract class PageResource extends Resource
     public function fields(NovaRequest $request)
     {
         $fields = [
-            Tabs::make('', [
+            Tabs::make(__('pages::pages.singularLabel'), [
                 Tab::make(
                     __('pages::pages.panels.basic'),
                     $this->basicFields()

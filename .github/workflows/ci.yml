@@ -75,6 +75,6 @@ jobs:
         with:
           node-version: "16.x"
 
-      - run: npm install
+      - run: yarn
 
       - run: npx prettier --check .

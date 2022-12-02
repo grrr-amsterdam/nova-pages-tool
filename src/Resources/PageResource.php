@@ -265,23 +265,25 @@ class PageResource extends Resource
     public static function getPageOptionsForSelect(
         ?string $withoutId = null
     ): array {
-        return PageModel::query()
-            ->when(
-                $withoutId,
-                fn($builder) => $builder->where('id', '!=', $withoutId)
-            )
-            ->orderBy('url')
-            ->orderBy('title')
-            ->cursor()
-            ->mapWithKeys(function (PageModel $page) {
-                $novaPage = new self($page);
-                return [
-                    $page->id =>
-                        str_repeat('-', substr_count($page->url, '/') - 1) .
-                        " {$novaPage->title()}",
-                ];
-            })
-            ->toArray();
+        return once(function () use ($withoutId) {
+            return PageModel::query()
+                ->when(
+                    $withoutId,
+                    fn($builder) => $builder->where('id', '!=', $withoutId)
+                )
+                ->orderBy('url')
+                ->orderBy('title')
+                ->cursor()
+                ->mapWithKeys(function (PageModel $page) {
+                    $novaPage = new self($page);
+                    return [
+                        $page->id =>
+                            str_repeat('-', substr_count($page->url, '/') - 1) .
+                            " {$novaPage->title()}",
+                    ];
+                })
+                ->toArray();
+        });
     }
 
     protected function basicFields(): array

@@ -15,6 +15,7 @@
     "laravel/nova": "^3.19",
     "optimistdigital/nova-menu-builder": "^6.0",
     "optimistdigital/nova-multiselect-field": "^2.3",
+    "spatie/once": "^1.1|^2.0|^3.0",
     "whitecube/nova-flexible-content": "^0.2"
   },
   "autoload": {

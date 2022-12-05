@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 3.1.0
+
+- Cache page options
+- Add `spatie/once` as dependency
+- Improve auto complete
+- Upgrade workflow to Ubuntu 22.04
+
 ## Version 3.0.1
 
 - Add common Laravel traits Dispatchable and SerializesModels to events.
@@ -34,7 +41,7 @@ For more info, see [Release 6.0.0 of Nova Menu Builder](https://github.com/outl1
 php artisan vendor:publish --provider="Grrr\Pages\ToolServiceProvider" --tag="config"
 ```
 
-If you implemented `getPageTemplates()` or `getLanguageOptions()` in your `Page` resource, move those options to `config/nova-pages-tool.php`.  
+If you implemented `getPageTemplates()` or `getLanguageOptions()` in your `Page` resource, move those options to `config/nova-pages-tool.php`.
 For unilingual sites, configure `allowTranslations` to `false`.
 
 ## Version 1.0.1

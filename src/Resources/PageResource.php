@@ -5,7 +5,6 @@ namespace Grrr\Pages\Resources;
 use App\Nova\User;
 use Eminiarts\Tabs\Tab;
 use Eminiarts\Tabs\Tabs;
-use Eminiarts\Tabs\TabsOnEdit;
 use Epartment\NovaDependencyContainer\HasDependencies;
 use Epartment\NovaDependencyContainer\NovaDependencyContainer;
 use Grrr\Pages\Filters;
@@ -35,7 +34,6 @@ use Whitecube\NovaFlexibleContent\Flexible;
 class PageResource extends Resource
 {
     use HasDependencies;
-    use TabsOnEdit;
 
     /**
      * The relationships that should be eager loaded on index queries.
@@ -292,7 +290,6 @@ class PageResource extends Resource
             Text::make(__('pages::pages.fields.title'), 'title')->rules(
                 'required'
             ),
-
             Slug::make(__('pages::pages.fields.slug'), 'slug')
                 ->from('title')
                 ->default('')

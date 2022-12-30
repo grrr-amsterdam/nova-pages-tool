@@ -3,6 +3,8 @@
 namespace Grrr\Pages;
 
 use Grrr\Pages\Resources\PageResource;
+use Illuminate\Http\Request;
+use Laravel\Nova\Menu\MenuSection;
 use Laravel\Nova\Nova;
 use Laravel\Nova\Tool;
 
@@ -19,12 +21,28 @@ class PagesTool extends Tool
     }
 
     /**
-     * Build the view that renders the navigation links for the tool.
+     * Build the menu that renders the navigation links for the tool.
      *
-     * @return \Illuminate\View\View
+     * @param  \Illuminate\Http\Request  $request
+     * @return mixed
      */
-    public function renderNavigation()
+    public function menu(Request $request)
     {
-        return view('pages::navigation');
+        return MenuSection::make("Pages")
+            ->canSee(function ($request) {
+                return PageResource::authorizedToViewAny($request);
+            })
+            ->path("/resources/grrr-page")
+            ->icon("document-text");
     }
+
+    // /**
+    //  * Build the view that renders the navigation links for the tool.
+    //  *
+    //  * @return \Illuminate\View\View
+    //  */
+    // public function renderNavigation()
+    // {
+    //     return view('pages::navigation');
+    // }
 }

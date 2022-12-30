@@ -80,7 +80,7 @@ class PageResource extends Resource
         });
     }
 
-    public function filters(Request $request)
+    public function filters(NovaRequest $request)
     {
         return [new Filters\Language(), new Filters\Template()];
     }
@@ -189,7 +189,7 @@ class PageResource extends Resource
         ];
     }
 
-    public function fields(Request $request): array
+    public function fields(NovaRequest $request): array
     {
         $fields = [
             Tabs::make('', [

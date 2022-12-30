@@ -6,6 +6,7 @@ use Grrr\Pages\Events\AttachedTranslation;
 use Grrr\Pages\Events\DeletedPage;
 use Grrr\Pages\Events\SavingPage;
 use Grrr\Pages\Events\SavedPage;
+use Grrr\Pages\Http\Middleware\Authorize;
 use Grrr\Pages\Listeners\AttachBidirectionalTranslation;
 use Grrr\Pages\Listeners\UpdatePageUrl;
 use Grrr\Pages\Listeners\DeleteConnectedMenuItems;
@@ -14,6 +15,8 @@ use Grrr\Pages\Models\PageTranslation;
 use Grrr\Pages\Observers\PageTranslationObserver;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Nova\Http\Middleware\Authenticate;
+use Laravel\Nova\Nova;
 
 class ToolServiceProvider extends ServiceProvider
 {
@@ -24,29 +27,32 @@ class ToolServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'pages');
-        $this->loadTranslationsFrom(__DIR__ . '/../resources/lang/', 'pages');
-        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations/');
+        $this->app->booted(function () {
+            $this->routes();
+        });
+        $this->loadViewsFrom(__DIR__ . "/../resources/views", "pages");
+        $this->loadTranslationsFrom(__DIR__ . "/../resources/lang/", "pages");
+        $this->loadMigrationsFrom(__DIR__ . "/../database/migrations/");
 
         $this->publishes(
             [
-                __DIR__ . '/../config/nova-pages-tool.php' => config_path(
-                    'nova-pages-tool.php'
+                __DIR__ . "/../config/nova-pages-tool.php" => config_path(
+                    "nova-pages-tool.php"
                 ),
             ],
-            'config'
+            "config"
         );
 
         // Handle a page's URL composition.
-        Event::listen(SavingPage::class, [UpdatePageUrl::class, 'handle']);
-        Event::listen(SavedPage::class, [UpdateChildPageUrls::class, 'handle']);
+        Event::listen(SavingPage::class, [UpdatePageUrl::class, "handle"]);
+        Event::listen(SavedPage::class, [UpdateChildPageUrls::class, "handle"]);
         Event::listen(DeletedPage::class, [
             DeleteConnectedMenuItems::class,
-            'handle',
+            "handle",
         ]);
         Event::listen(AttachedTranslation::class, [
             AttachBidirectionalTranslation::class,
-            'handle',
+            "handle",
         ]);
 
         PageTranslation::observe(PageTranslationObserver::class);
@@ -60,8 +66,15 @@ class ToolServiceProvider extends ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(
-            __DIR__ . '/../config/nova-pages-tool.php',
-            'nova-pages-tool'
+            __DIR__ . "/../config/nova-pages-tool.php",
+            "nova-pages-tool"
+        );
+    }
+
+    protected function routes()
+    {
+        Nova::router(["nova", Authenticate::class, Authorize::class])->group(
+            __DIR__ . "/../routes/inertia.php"
         );
     }
 }

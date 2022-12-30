@@ -27,10 +27,6 @@ class ToolServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->app->booted(function () {
-            $this->routes();
-        });
-        $this->loadViewsFrom(__DIR__ . "/../resources/views", "pages");
         $this->loadTranslationsFrom(__DIR__ . "/../resources/lang/", "pages");
         $this->loadMigrationsFrom(__DIR__ . "/../database/migrations/");
 
@@ -68,13 +64,6 @@ class ToolServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(
             __DIR__ . "/../config/nova-pages-tool.php",
             "nova-pages-tool"
-        );
-    }
-
-    protected function routes()
-    {
-        Nova::router(["nova", Authenticate::class, Authorize::class])->group(
-            __DIR__ . "/../routes/inertia.php"
         );
     }
 }

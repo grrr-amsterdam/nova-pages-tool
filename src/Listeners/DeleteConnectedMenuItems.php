@@ -3,7 +3,7 @@
 namespace Grrr\Pages\Listeners;
 
 use Grrr\Pages\Events\DeletedPage;
-use OptimistDigital\MenuBuilder\Models\MenuItem;
+use Outl1ne\MenuBuilder\Models\MenuItem;
 
 class DeleteConnectedMenuItems
 {

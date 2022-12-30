@@ -26,7 +26,7 @@ use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Resource;
-use OptimistDigital\MultiselectField\Multiselect;
+use Outl1ne\MultiselectField\Multiselect;
 use Whitecube\NovaFlexibleContent\Flexible;
 
 /**

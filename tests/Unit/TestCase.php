@@ -4,7 +4,7 @@ namespace Tests\Unit;
 
 use Grrr\Pages\ToolServiceProvider;
 use Illuminate\Foundation\Testing\WithFaker;
-use OptimistDigital\MenuBuilder\MenuBuilderServiceProvider;
+use Outl1ne\MenuBuilder\MenuBuilderServiceProvider;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase

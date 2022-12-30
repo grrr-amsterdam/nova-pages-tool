@@ -173,9 +173,9 @@ Use it like this:
 Select::make('My page')->options(PageResource::getPageOptionsForSelect());
 ```
 
-## Integration with OptimistDigital/MenuBuilder
+## Integration with Outl1ne/MenuBuilder
 
-You can use this tool together with [OptimistDigital/MenuBuilder](https://github.com/optimistdigital/nova-menu-builder).  
+You can use this tool together with [Outl1ne/MenuBuilder](https://github.com/outl1ne/nova-menu-builder).  
 Follow their documentation, and then add the following custom menu type to the MenuBuilder configuration:
 
 ```php
@@ -233,6 +233,6 @@ This plugin utilizes the following packages:
 - [Whitecube/NovaFlexibleContent](https://github.com/whitecube/nova-flexible-content)
 - [AndreasGJ/seo-meta-field-nova](https://github.com/AndreasGJ/seo-meta-field-nova)
 - [Axn/laravel-eloquent-authorable](https://github.com/AXN-Informatique/laravel-eloquent-authorable)
-- [OptimistDigital/MenuBuilder](https://github.com/optimistdigital/nova-menu-builder)
+- [Outl1ne/MenuBuilder](https://github.com/outl1ne/nova-menu-builder)
 - [Epartment/NovaDependencyContainer](https://github.com/epartment/nova-dependency-container)
 - [Eminiarts/nova-tabs](https://github.com/eminiarts/nova-tabs)

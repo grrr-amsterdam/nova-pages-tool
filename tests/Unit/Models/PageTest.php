@@ -96,7 +96,7 @@ class PageTest extends TestCase
         $this->assertSame(123, $freshPage->metadata['foo']);
 
         $this->assertSame(false, $freshPage->metadata['bar']);
-        $this->assertSame("lorem ipsum", $freshPage->metadata['qux']);
+        $this->assertSame('lorem ipsum', $freshPage->metadata['qux']);
     }
 
     public function it_may_have_translations(): void

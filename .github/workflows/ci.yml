@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-22.04
     strategy:
       matrix:
-        php-versions: ["8"]
+        php-versions: ['8']
 
     services:
       mysql:
@@ -71,7 +71,7 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: "12.x"
+          node-version: '12.x'
 
       - run: npm install
 

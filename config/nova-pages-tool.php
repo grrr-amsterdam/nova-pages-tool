@@ -12,4 +12,6 @@ return [
 
     'templates' => [\Grrr\Pages\Models\Page::TEMPLATE_DEFAULT],
     'defaultTemplate' => \Grrr\Pages\Models\Page::TEMPLATE_DEFAULT,
+
+    'seoImagesDisk' => env('SEO__DISK', 'public'),
 ];

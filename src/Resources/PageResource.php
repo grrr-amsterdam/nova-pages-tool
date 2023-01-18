@@ -402,7 +402,10 @@ class PageResource extends Resource
 
     protected function seoFields(): array
     {
-        return [SeoMeta::make(__('pages::pages.fields.seo'), 'seo_meta')];
+        $seoFields = SeoMeta::make(__('pages::pages.fields.seo'), 'seo_meta');
+        $imagesDisk = config('nova-pages-tool.seoImagesDisk');
+        $seoFields->disk($imagesDisk);
+        return [$seoFields];
     }
 
     /**
@@ -446,11 +449,11 @@ class PageResource extends Resource
             ->filter(
                 fn(string $templateName) => method_exists(
                     $this,
-                    "fieldsFor" . Str::studly($templateName)
+                    'fieldsFor' . Str::studly($templateName)
                 )
             )
             ->map(function (string $templateName) {
-                $method = "fieldsFor" . Str::studly($templateName);
+                $method = 'fieldsFor' . Str::studly($templateName);
                 $fields = $this->$method();
                 if (!is_array($fields)) {
                     throw new \Exception(

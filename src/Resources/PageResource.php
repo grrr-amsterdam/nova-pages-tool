@@ -296,7 +296,7 @@ class PageResource extends Resource
             Slug::make(__('pages::pages.fields.slug'), 'slug')
                 ->from('title')
                 ->default('')
-                ->rules('alpha_dash')
+                ->rules(['nullable', 'alpha_dash'])
                 ->help(__('pages::pages.fields.slugHelp'))
                 ->hideFromIndex(),
 

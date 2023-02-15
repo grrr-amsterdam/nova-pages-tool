@@ -1,5 +1,9 @@
 # Changelog
 
+## Version 3.2.2
+
+- Fix: Make slug validation rule optional.
+
 ## Version 3.2.1
 
 - Fix: Add validation to slug field.

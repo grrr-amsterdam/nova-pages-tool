@@ -28,21 +28,11 @@ class PagesTool extends Tool
      */
     public function menu(Request $request)
     {
-        return MenuSection::make("Pages")
+        return MenuSection::make(__('pages::pages.label'))
             ->canSee(function ($request) {
                 return PageResource::authorizedToViewAny($request);
             })
             ->path("/resources/grrr-page")
             ->icon("document-text");
     }
-
-    // /**
-    //  * Build the view that renders the navigation links for the tool.
-    //  *
-    //  * @return \Illuminate\View\View
-    //  */
-    // public function renderNavigation()
-    // {
-    //     return view('pages::navigation');
-    // }
 }

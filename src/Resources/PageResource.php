@@ -192,7 +192,7 @@ class PageResource extends Resource
     public function fields(NovaRequest $request): array
     {
         $fields = [
-            Tabs::make('', [
+            Tabs::make($this->title(), [
                 Tab::make(
                     __('pages::pages.panels.basic'),
                     $this->basicFields()

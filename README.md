@@ -234,5 +234,5 @@ This plugin utilizes the following packages:
 - [AndreasGJ/seo-meta-field-nova](https://github.com/AndreasGJ/seo-meta-field-nova)
 - [Axn/laravel-eloquent-authorable](https://github.com/AXN-Informatique/laravel-eloquent-authorable)
 - [Outl1ne/MenuBuilder](https://github.com/outl1ne/nova-menu-builder)
-- [Epartment/NovaDependencyContainer](https://github.com/epartment/nova-dependency-container)
+- [Alexwenzel/NovaDependencyContainer](https://github.com/alexwenzel/nova-dependency-container/)
 - [Eminiarts/nova-tabs](https://github.com/eminiarts/nova-tabs)

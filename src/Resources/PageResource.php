@@ -2,11 +2,11 @@
 
 namespace Grrr\Pages\Resources;
 
+use Alexwenzel\DependencyContainer\HasDependencies;
+use Alexwenzel\DependencyContainer\DependencyContainer;
 use App\Nova\User;
 use Eminiarts\Tabs\Tab;
 use Eminiarts\Tabs\Tabs;
-use Epartment\NovaDependencyContainer\HasDependencies;
-use Epartment\NovaDependencyContainer\NovaDependencyContainer;
 use Grrr\Pages\Filters;
 use Grrr\Pages\Models\Page as PageModel;
 use Gwd\SeoMeta\SeoMeta;
@@ -437,7 +437,7 @@ class PageResource extends Resource
     }
 
     /**
-     * Create NovaDependencyContainers for every template that offers
+     * Create Dependency Containers for every template that offers
      * dependent fields.
      * These will become visible in the form after switching templates.
      */
@@ -458,7 +458,7 @@ class PageResource extends Resource
                         "Unable to deduce template-specific fields for method {$method}."
                     );
                 }
-                return NovaDependencyContainer::make($fields)->dependsOn(
+                return DependencyContainer::make($fields)->dependsOn(
                     'template',
                     $templateName
                 );

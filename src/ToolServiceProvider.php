@@ -27,28 +27,28 @@ class ToolServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->loadTranslationsFrom(__DIR__ . "/../resources/lang/", "pages");
-        $this->loadMigrationsFrom(__DIR__ . "/../database/migrations/");
+        $this->loadTranslationsFrom(__DIR__ . '/../resources/lang/', 'pages');
+        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations/');
 
         $this->publishes(
             [
-                __DIR__ . "/../config/nova-pages-tool.php" => config_path(
-                    "nova-pages-tool.php"
+                __DIR__ . '/../config/nova-pages-tool.php' => config_path(
+                    'nova-pages-tool.php'
                 ),
             ],
-            "config"
+            'config'
         );
 
         // Handle a page's URL composition.
-        Event::listen(SavingPage::class, [UpdatePageUrl::class, "handle"]);
-        Event::listen(SavedPage::class, [UpdateChildPageUrls::class, "handle"]);
+        Event::listen(SavingPage::class, [UpdatePageUrl::class, 'handle']);
+        Event::listen(SavedPage::class, [UpdateChildPageUrls::class, 'handle']);
         Event::listen(DeletedPage::class, [
             DeleteConnectedMenuItems::class,
-            "handle",
+            'handle',
         ]);
         Event::listen(AttachedTranslation::class, [
             AttachBidirectionalTranslation::class,
-            "handle",
+            'handle',
         ]);
 
         PageTranslation::observe(PageTranslationObserver::class);
@@ -62,8 +62,8 @@ class ToolServiceProvider extends ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(
-            __DIR__ . "/../config/nova-pages-tool.php",
-            "nova-pages-tool"
+            __DIR__ . '/../config/nova-pages-tool.php',
+            'nova-pages-tool'
         );
     }
 }

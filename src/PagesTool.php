@@ -32,7 +32,7 @@ class PagesTool extends Tool
             ->canSee(function ($request) {
                 return PageResource::authorizedToViewAny($request);
             })
-            ->path("/resources/grrr-page")
-            ->icon("document-text");
+            ->path('/resources/grrr-page')
+            ->icon('document-text');
     }
 }

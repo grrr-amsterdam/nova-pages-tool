@@ -7,9 +7,6 @@ jobs:
   tests:
     name: Tests
     runs-on: ubuntu-22.04
-    strategy:
-      matrix:
-        php-versions: ['8']
 
     services:
       mysql:
@@ -24,7 +21,9 @@ jobs:
     steps:
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: ${{ matrix.php-versions }}
+          php-version: 8
+        env:
+          COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - uses: actions/checkout@v3
 
@@ -44,7 +43,7 @@ jobs:
 
       - name: Install PHP dependencies
         run: |
-          composer config http-basic.nova.laravel.com ${{ secrets.NOVA_USERNAME }} ${{ secrets.NOVA_PASSWORD }}
+          composer config --ansi -- http-basic.nova.laravel.com "${{ secrets.NOVA_USERNAME }}" "${{ secrets.NOVA_PASSWORD }}"
           composer install --prefer-dist --no-interaction --ansi
 
       - name: Run PHP tests

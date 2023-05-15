@@ -1,5 +1,9 @@
 # Changelog
 
+## Version 4.0.0
+
+- This package is now compatible with Laravel Nova 4.
+
 ## Version 3.2.2
 
 - Fix: Make slug validation rule optional.

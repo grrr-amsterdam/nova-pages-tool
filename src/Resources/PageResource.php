@@ -300,10 +300,13 @@ class PageResource extends Resource
             Text::make(__('pages::pages.fields.url'), 'url')
                 ->hideWhenCreating()
                 ->hideWhenUpdating()
-                // @todo Make this configurable, because in headless CMS setups,
-                // this should not link to this server.
                 ->displayUsing(
-                    fn(string $url) => "<a href=\"{$url}\">{$url}</a>"
+                    fn(string $url) => sprintf(
+                        '<a href="%s">%s</a>',
+                        rtrim(config('nova-pages-tool.frontendUrl'), '/') .
+                            $url,
+                        $url
+                    )
                 )
                 ->asHtml(),
 

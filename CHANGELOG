@@ -1,5 +1,10 @@
 # Changelog
 
+## Version 4.1.1
+
+- Use the `FRONTEND_URL` environment variable to configure which URL will be
+used to link to pages. Useful when you're using Nova as a headless CMS.
+
 ## Version 4.0.0
 
 - This package is now compatible with Laravel Nova 4.

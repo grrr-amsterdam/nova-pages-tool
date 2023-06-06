@@ -10,6 +10,8 @@ return [
     // Disable for unilingual websites.
     'allowTranslations' => true,
 
+    'pageResourceClass' => \Grrr\Pages\Resources\PageResource::class,
+
     'templates' => [\Grrr\Pages\Models\Page::TEMPLATE_DEFAULT],
     'defaultTemplate' => \Grrr\Pages\Models\Page::TEMPLATE_DEFAULT,
 

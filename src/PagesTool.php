@@ -17,7 +17,12 @@ class PagesTool extends Tool
      */
     public function boot()
     {
-        Nova::resources([PageResource::class]);
+        // Only register default PageResource class when there is no custom one configured.
+        if (
+            config('nova-pages-tool.pageResourceClass') === PageResource::class
+        ) {
+            Nova::resources([PageResource::class]);
+        }
     }
 
     /**

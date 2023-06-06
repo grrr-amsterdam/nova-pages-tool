@@ -48,8 +48,9 @@ php artisan vendor:publish --provider="Grrr\Pages\ToolServiceProvider" --tag="co
 
 Out of the box you will get a Pages tool in your Nova back-end to manage pages. If everything is to your liking, you can just start using it as-is!
 
-However, you will probably want to add some layouts to be used in the flexible-content portion of the page.
-You can create your own `Page` resource and extend `Grrr\Pages\Resources\PageResource`. Override the `getFlexibleLayouts()` method to specify your own flexible content layouts:
+However, you will probably want to add some layouts to be used in the flexible-content portion of the page. Or customize some other properties.
+
+In the configuration file `config/nova-pages-tool.php` you can tell it to use your own Nova resource and extend `Grrr\Pages\Resources\PageResource`. Override the `getFlexibleLayouts()` method to specify your own flexible content layouts:
 
 ```php
 namespace App\Nova;

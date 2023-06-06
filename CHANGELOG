@@ -1,9 +1,25 @@
 # Changelog
 
-## Version 4.1.1
+## Version 4.1.0
+
+In our previous setup we told you can extend the `PageResource` to customize the flexible content
+layouts. But this meant that the same 'page' resource was registered twice in Nova, which caused
+several issues, like unable to customize global search behaviour.
+
+You can still extend the `PageResource` to customize the flexible content layouts, but you should
+configure it in the `nova-pages-tool.php` config file:
+
+```php
+'pageResourceClass' => \App\Nova\Page::class,
+```
+
+Update notes: In previous versions you had to disable the global search functionality on your extended
+page resource, otherwise you got double search results. You can remove this disabling 'hack' now.
+
+## Version 4.0.1
 
 - Use the `FRONTEND_URL` environment variable to configure which URL will be
-used to link to pages. Useful when you're using Nova as a headless CMS.
+  used to link to pages. Useful when you're using Nova as a headless CMS.
 
 ## Version 4.0.0
 

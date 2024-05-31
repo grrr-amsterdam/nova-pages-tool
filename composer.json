@@ -8,8 +8,8 @@
   "license": "MIT",
   "require": {
     "php": "~8.0",
-    "alexwenzel/nova-dependency-container": "^1.10",
-    "axn/laravel-eloquent-authorable": "^6.1",
+    "alexwenzel/nova-dependency-container": "^1.11",
+    "axn/laravel-eloquent-authorable": "dev-l11-compatibility",
     "eminiarts/nova-tabs": "^2.0",
     "gwd/seo-meta-nova-field": "dev-nova-4-compatibility",
     "laravel/nova": "^4.0",
@@ -37,6 +37,10 @@
     {
       "type": "vcs",
       "url": "https://github.com/mucenica-bogdan/seo-meta-field-nova"
+    },
+    {
+      "type": "vcs",
+      "url": "https://github.com/laravel-shift/laravel-eloquent-authorable.git"
     }
   ],
   "extra": {

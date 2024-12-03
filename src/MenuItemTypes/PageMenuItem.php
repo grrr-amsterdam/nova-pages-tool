@@ -55,7 +55,8 @@ class PageMenuItem extends BaseMenuItemType
      */
     public static function getOptions(): array
     {
-        return PageResource::getPageOptionsForSelect();
+        $resourceClass = config('nova-pages-tool.pageResourceClass');
+        return $resourceClass::getPageOptionsForSelect();
     }
 
     /**

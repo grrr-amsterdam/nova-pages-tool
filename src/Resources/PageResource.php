@@ -294,6 +294,9 @@ class PageResource extends Resource
                 ->from('title')
                 ->default('')
                 ->rules(['nullable', 'alpha_dash'])
+                ->withMeta([
+                    'resourceName' => self::uriKey(),
+                ])
                 ->help(__('pages::pages.fields.slugHelp'))
                 ->hideFromIndex(),
 

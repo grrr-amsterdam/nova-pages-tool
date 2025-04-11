@@ -1,5 +1,15 @@
 # Changelog
 
+## Version 4.3.x
+
+- Update dependencies
+- Fix for creating menu item for a page
+
+## Version 4.2.x
+
+- Update dependencies to be compatible with Laravel 11.
+- Fix slug preview feature.
+
 ## Version 4.1.0
 
 In our previous setup we told you can extend the `PageResource` to customize the flexible content

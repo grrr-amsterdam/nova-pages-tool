@@ -7,8 +7,7 @@
   ],
   "license": "MIT",
   "require": {
-    "php": "~8.0",
-    "alexwenzel/nova-dependency-container": "^1.13",
+    "php": "~8.2.0",
     "axn/laravel-eloquent-authorable": "dev-l11-compatibility",
     "laravel/nova": "^5.0",
     "outl1ne/nova-menu-builder": "^2.3",

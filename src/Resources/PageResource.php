@@ -2,9 +2,9 @@
 
 namespace Grrr\Pages\Resources;
 
-use Alexwenzel\DependencyContainer\HasDependencies;
-use Alexwenzel\DependencyContainer\DependencyContainer;
 use App\Nova\User;
+use Laravel\Nova\Fields\Field;
+use Laravel\Nova\Fields\SupportsDependentFields;
 use Laravel\Nova\Tabs\Tab;
 use Grrr\Pages\Filters;
 use Grrr\Pages\Models\Page as PageModel;
@@ -30,8 +30,6 @@ use Whitecube\NovaFlexibleContent\Flexible;
  */
 class PageResource extends Resource
 {
-    use HasDependencies;
-
     /**
      * The relationships that should be eager loaded on index queries.
      *
@@ -452,10 +450,19 @@ class PageResource extends Resource
                         "Unable to deduce template-specific fields for method {$method}."
                     );
                 }
-                return DependencyContainer::make($fields)->dependsOn(
-                    'template',
-                    $templateName
-                );
+
+                /** @var Field|SupportsDependentFields $field */
+                foreach ($fields as $field) {
+                    if (!in_array(SupportsDependentFields::class, class_uses($field))) {
+                        throw new \Exception(
+                            "Field {$field->name} does not support dependent fields.
+                            Ensure the field uses the SupportsDependentFields trait."
+                        );
+                    }
+                    $field->dependsOn('template', $templateName);
+                }
+
+                return $fields;
             })
             ->all();
     }

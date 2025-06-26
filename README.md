@@ -233,5 +233,3 @@ This plugin utilizes the following packages:
 
 - [Whitecube/NovaFlexibleContent](https://github.com/whitecube/nova-flexible-content)
 - [Axn/laravel-eloquent-authorable](https://github.com/AXN-Informatique/laravel-eloquent-authorable)
-- [Outl1ne/MenuBuilder](https://github.com/outl1ne/nova-menu-builder)
-- [Alexwenzel/NovaDependencyContainer](https://github.com/alexwenzel/nova-dependency-container/)

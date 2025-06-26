@@ -3,7 +3,6 @@
 namespace Grrr\Pages\MenuItemTypes;
 
 use Grrr\Pages\Models\Page;
-use Grrr\Pages\Resources\PageResource;
 use Laravel\Nova\Fields\Select;
 use Outl1ne\MenuBuilder\MenuItemTypes\BaseMenuItemType;
 

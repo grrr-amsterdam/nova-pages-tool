@@ -9,9 +9,7 @@ use Eminiarts\Tabs\Tab;
 use Eminiarts\Tabs\Tabs;
 use Grrr\Pages\Filters;
 use Grrr\Pages\Models\Page as PageModel;
-use Gwd\SeoMeta\SeoMeta;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
@@ -208,7 +206,6 @@ class PageResource extends Resource
                     $this->contentFields()
                 ),
 
-                Tab::make(__('pages::pages.panels.seo'), $this->seoFields()),
             ])->withToolbar(),
         ];
 
@@ -402,14 +399,6 @@ class PageResource extends Resource
             $flexible->preset($preset);
         }
         return [$flexible];
-    }
-
-    protected function seoFields(): array
-    {
-        $seoFields = SeoMeta::make(__('pages::pages.fields.seo'), 'seo_meta');
-        $imagesDisk = config('nova-pages-tool.seoImagesDisk');
-        $seoFields->disk($imagesDisk);
-        return [$seoFields];
     }
 
     /**

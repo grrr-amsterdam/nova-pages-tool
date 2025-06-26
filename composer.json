@@ -8,14 +8,14 @@
   "license": "MIT",
   "require": {
     "php": "~8.0",
-    "alexwenzel/nova-dependency-container": "^1.11",
+    "alexwenzel/nova-dependency-container": "^1.13",
     "axn/laravel-eloquent-authorable": "dev-l11-compatibility",
-    "eminiarts/nova-tabs": "^2.0",
-    "laravel/nova": "^4.0",
-    "outl1ne/nova-menu-builder": "^7.0",
-    "outl1ne/nova-multiselect-field": "^4.0",
+    "eminiarts/nova-tabs": "^1.5",
+    "laravel/nova": "^5.0",
+    "outl1ne/nova-menu-builder": "^2.3",
+    "outl1ne/nova-multiselect-field": "^5.0",
     "spatie/once": "^1.1|^2.0|^3.0",
-    "whitecube/nova-flexible-content": "^1.0"
+    "whitecube/nova-flexible-content": "^2.0"
   },
   "autoload": {
     "psr-4": {
@@ -46,8 +46,8 @@
     }
   },
   "require-dev": {
-    "orchestra/testbench": "^6.7",
-    "phpunit/phpunit": "^8.1"
+    "orchestra/testbench": "~v9.0",
+    "phpunit/phpunit": "^10.0"
   },
   "config": {
     "sort-packages": true

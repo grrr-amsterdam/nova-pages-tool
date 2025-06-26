@@ -174,17 +174,6 @@ Use it like this:
 Select::make('My page')->options(PageResource::getPageOptionsForSelect());
 ```
 
-## Integration with Outl1ne/MenuBuilder
-
-You can use this tool together with [Outl1ne/MenuBuilder](https://github.com/outl1ne/nova-menu-builder).  
-Follow their documentation, and then add the following custom menu type to the MenuBuilder configuration:
-
-```php
-    'menu_item_types' => [\Grrr\Pages\MenuItemTypes\PageMenuItem::class],
-```
-
-This will allow admins to choose a page from this Tool as a menu item.
-
 ## Multilingual support
 
 The way we offer multilingual support is by relating pages in differing languages together.  

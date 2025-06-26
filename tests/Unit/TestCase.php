@@ -4,7 +4,6 @@ namespace Tests\Unit;
 
 use Grrr\Pages\ToolServiceProvider;
 use Illuminate\Foundation\Testing\WithFaker;
-use Outl1ne\MenuBuilder\MenuBuilderServiceProvider;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase
@@ -24,7 +23,7 @@ abstract class TestCase extends BaseTestCase
 
     protected function getPackageProviders($app)
     {
-        return [ToolServiceProvider::class, MenuBuilderServiceProvider::class];
+        return [ToolServiceProvider::class];
     }
 
     protected function defineDatabaseMigrations()

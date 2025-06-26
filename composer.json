@@ -10,7 +10,6 @@
     "php": "~8.0",
     "alexwenzel/nova-dependency-container": "^1.13",
     "axn/laravel-eloquent-authorable": "dev-l11-compatibility",
-    "eminiarts/nova-tabs": "^1.5",
     "laravel/nova": "^5.0",
     "outl1ne/nova-menu-builder": "^2.3",
     "outl1ne/nova-multiselect-field": "^5.0",

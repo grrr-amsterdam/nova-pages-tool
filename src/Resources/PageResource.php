@@ -5,8 +5,7 @@ namespace Grrr\Pages\Resources;
 use Alexwenzel\DependencyContainer\HasDependencies;
 use Alexwenzel\DependencyContainer\DependencyContainer;
 use App\Nova\User;
-use Eminiarts\Tabs\Tab;
-use Eminiarts\Tabs\Tabs;
+use Laravel\Nova\Tabs\Tab;
 use Grrr\Pages\Filters;
 use Grrr\Pages\Models\Page as PageModel;
 use Illuminate\Database\Eloquent\Builder;
@@ -190,7 +189,7 @@ class PageResource extends Resource
     public function fields(NovaRequest $request): array
     {
         $fields = [
-            Tabs::make($this->title(), [
+            Tab::group($this->title(), [
                 Tab::make(
                     __('pages::pages.panels.basic'),
                     $this->basicFields()

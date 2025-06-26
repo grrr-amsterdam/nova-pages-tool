@@ -11,7 +11,6 @@
     "alexwenzel/nova-dependency-container": "^1.11",
     "axn/laravel-eloquent-authorable": "dev-l11-compatibility",
     "eminiarts/nova-tabs": "^2.0",
-    "gwd/seo-meta-nova-field": "dev-nova-4-compatibility",
     "laravel/nova": "^4.0",
     "outl1ne/nova-menu-builder": "^7.0",
     "outl1ne/nova-multiselect-field": "^4.0",
@@ -33,10 +32,6 @@
     {
       "type": "composer",
       "url": "https://nova.laravel.com"
-    },
-    {
-      "type": "vcs",
-      "url": "https://github.com/mucenica-bogdan/seo-meta-field-nova"
     },
     {
       "type": "vcs",

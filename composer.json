@@ -10,7 +10,7 @@
     "php": "~8.2.0",
     "axn/laravel-eloquent-authorable": "dev-l11-compatibility",
     "laravel/nova": "^5.0",
-    "outl1ne/nova-menu-builder": "^2.3",
+    "outl1ne/nova-menu-builder": "dev-main",
     "outl1ne/nova-multiselect-field": "^5.0",
     "spatie/once": "^1.1|^2.0|^3.0",
     "whitecube/nova-flexible-content": "^2.0"

@@ -285,7 +285,7 @@ class PageResource extends Resource
                 'required'
             ),
             Slug::make(__('pages::pages.fields.slug'), 'slug')
-                ->from('title')
+                //->from('title')
                 ->default('')
                 ->rules(['nullable', 'alpha_dash'])
                 ->withMeta([

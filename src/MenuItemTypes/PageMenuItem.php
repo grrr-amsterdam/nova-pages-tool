@@ -3,15 +3,9 @@
 namespace Grrr\Pages\MenuItemTypes;
 
 use Grrr\Pages\Models\Page;
-use Grrr\Pages\Resources\PageResource;
 use Laravel\Nova\Fields\Select;
-use Outl1ne\MenuBuilder\MenuItemTypes\BaseMenuItemType;
 
-/**
- * This class can be used to combine this Tool with Outl1ne/MenuBuilder.
- * @see https://novapackages.com/packages/outl1ne/nova-menu-builder
- */
-class PageMenuItem extends BaseMenuItemType
+class PageMenuItem
 {
     /**
      * Store of pages to aid lookup performance.

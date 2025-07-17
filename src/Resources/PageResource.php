@@ -2,16 +2,13 @@
 
 namespace Grrr\Pages\Resources;
 
-use Alexwenzel\DependencyContainer\HasDependencies;
-use Alexwenzel\DependencyContainer\DependencyContainer;
 use App\Nova\User;
-use Eminiarts\Tabs\Tab;
-use Eminiarts\Tabs\Tabs;
+use Laravel\Nova\Fields\Field;
+use Laravel\Nova\Fields\SupportsDependentFields;
+use Laravel\Nova\Tabs\Tab;
 use Grrr\Pages\Filters;
 use Grrr\Pages\Models\Page as PageModel;
-use Gwd\SeoMeta\SeoMeta;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
@@ -33,8 +30,6 @@ use Whitecube\NovaFlexibleContent\Flexible;
  */
 class PageResource extends Resource
 {
-    use HasDependencies;
-
     /**
      * The relationships that should be eager loaded on index queries.
      *
@@ -192,7 +187,7 @@ class PageResource extends Resource
     public function fields(NovaRequest $request): array
     {
         $fields = [
-            Tabs::make($this->title(), [
+            Tab::group($this->title(), [
                 Tab::make(
                     __('pages::pages.panels.basic'),
                     $this->basicFields()
@@ -208,7 +203,6 @@ class PageResource extends Resource
                     $this->contentFields()
                 ),
 
-                Tab::make(__('pages::pages.panels.seo'), $this->seoFields()),
             ])->withToolbar(),
         ];
 
@@ -291,7 +285,7 @@ class PageResource extends Resource
                 'required'
             ),
             Slug::make(__('pages::pages.fields.slug'), 'slug')
-                ->from('title')
+                //->from('title')
                 ->default('')
                 ->rules(['nullable', 'alpha_dash'])
                 ->withMeta([
@@ -404,14 +398,6 @@ class PageResource extends Resource
         return [$flexible];
     }
 
-    protected function seoFields(): array
-    {
-        $seoFields = SeoMeta::make(__('pages::pages.fields.seo'), 'seo_meta');
-        $imagesDisk = config('nova-pages-tool.seoImagesDisk');
-        $seoFields->disk($imagesDisk);
-        return [$seoFields];
-    }
-
     /**
      * Validate the uniqueness of the URL, basically, which is determined by
      * combining the slug and all parent slugs.
@@ -464,10 +450,19 @@ class PageResource extends Resource
                         "Unable to deduce template-specific fields for method {$method}."
                     );
                 }
-                return DependencyContainer::make($fields)->dependsOn(
-                    'template',
-                    $templateName
-                );
+
+                /** @var Field|SupportsDependentFields $field */
+                foreach ($fields as $field) {
+                    if (!in_array(SupportsDependentFields::class, class_uses($field))) {
+                        throw new \Exception(
+                            "Field {$field->name} does not support dependent fields.
+                            Ensure the field uses the SupportsDependentFields trait."
+                        );
+                    }
+                    $field->dependsOn('template', $templateName);
+                }
+
+                return $fields;
             })
             ->all();
     }

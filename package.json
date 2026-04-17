@@ -15,6 +15,10 @@
     "@vue/compiler-sfc": "^3.2.22",
     "laravel-mix": "^6.0.41",
     "prettier": "^2.8.1",
-    "vue-loader": "^16.8.3"
+    "resolve-url-loader": "^5.0.0",
+    "sass": "^1.50.0",
+    "sass-loader": "^13.0.0",
+    "vue-loader": "^16.8.3",
+    "webpack": "^5.88.0"
   }
 }

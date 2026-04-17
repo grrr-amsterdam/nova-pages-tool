@@ -6,6 +6,8 @@ yarn.lock
 composer.phar
 composer.lock
 .phpunit.result.cache
+.phpunit.cache
+.claude
 .DS_Store
 Thumbs.db
 phpunit.xml

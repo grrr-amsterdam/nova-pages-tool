@@ -1,17 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit backupGlobals="false"
-         backupStaticAttributes="false"
-         colors="true"
-         convertErrorsToExceptions="true"
-         convertNoticesToExceptions="true"
-         convertWarningsToExceptions="true"
+<phpunit colors="true"
          processIsolation="false"
          stopOnFailure="false"
          bootstrap="./tests/bootstrap.php"
+         cacheDirectory=".phpunit.cache"
 >
     <testsuites>
         <testsuite name="Package Test Suite">
-            <directory suffix=".php">./tests/</directory>
+            <directory suffix="Test.php">./tests/</directory>
         </testsuite>
     </testsuites>
     <php>
@@ -21,5 +17,5 @@
         <env name="DB_DATABASE" value="nova_pages_tool_testing"/>
         <env name="DB_HOST" value="127.0.0.1" />
         <env name="DB_PORT" value="3306" />
-    </php> 
+    </php>
 </phpunit>

@@ -2,14 +2,10 @@
 
 namespace Grrr\Pages\Resources;
 
-use Alexwenzel\DependencyContainer\HasDependencies;
-use Alexwenzel\DependencyContainer\DependencyContainer;
 use App\Nova\User;
-use Eminiarts\Tabs\Tab;
-use Eminiarts\Tabs\Tabs;
+use Grrr\Pages\Fields\SeoMeta;
 use Grrr\Pages\Filters;
 use Grrr\Pages\Models\Page as PageModel;
-use Gwd\SeoMeta\SeoMeta;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -19,12 +15,14 @@ use Laravel\Nova\Fields\Badge;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\DateTime;
+use Laravel\Nova\Fields\FormData;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Slug;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Resource;
+use Laravel\Nova\Tabs\Tab;
 use Outl1ne\MultiselectField\Multiselect;
 use Whitecube\NovaFlexibleContent\Flexible;
 
@@ -33,8 +31,6 @@ use Whitecube\NovaFlexibleContent\Flexible;
  */
 class PageResource extends Resource
 {
-    use HasDependencies;
-
     /**
      * The relationships that should be eager loaded on index queries.
      *
@@ -71,13 +67,15 @@ class PageResource extends Resource
      * Make sure pages are ordered by url, which should show the hierarchy
      * between parents and children.
      */
-    public static function indexQuery(NovaRequest $request, $query): void
+    public static function indexQuery(NovaRequest $request, $query)
     {
         $query->when(empty($request->get('orderBy')), function (Builder $q) {
             $q->getQuery()->orders = [];
 
             return $q->orderBy('url')->orderBy('title');
         });
+
+        return $query;
     }
 
     public function filters(NovaRequest $request)
@@ -192,7 +190,7 @@ class PageResource extends Resource
     public function fields(NovaRequest $request): array
     {
         $fields = [
-            Tabs::make($this->title(), [
+            Tab::group($this->title(), [
                 Tab::make(
                     __('pages::pages.panels.basic'),
                     $this->basicFields()
@@ -209,7 +207,7 @@ class PageResource extends Resource
                 ),
 
                 Tab::make(__('pages::pages.panels.seo'), $this->seoFields()),
-            ])->withToolbar(),
+            ]),
         ];
 
         if (config('nova-pages-tool.allowTranslations')) {
@@ -443,8 +441,7 @@ class PageResource extends Resource
     }
 
     /**
-     * Create Dependency Containers for every template that offers
-     * dependent fields.
+     * Create dependent fields for every template that offers them.
      * These will become visible in the form after switching templates.
      */
     protected function getTemplateDependentFields(): array
@@ -456,7 +453,7 @@ class PageResource extends Resource
                     'fieldsFor' . Str::studly($templateName)
                 )
             )
-            ->map(function (string $templateName) {
+            ->flatMap(function (string $templateName) {
                 $method = 'fieldsFor' . Str::studly($templateName);
                 $fields = $this->$method();
                 if (!is_array($fields)) {
@@ -464,9 +461,18 @@ class PageResource extends Resource
                         "Unable to deduce template-specific fields for method {$method}."
                     );
                 }
-                return DependencyContainer::make($fields)->dependsOn(
-                    'template',
-                    $templateName
+                return collect($fields)->map(
+                    fn($field) => $field
+                        ->hide()
+                        ->dependsOn(['template'], function (
+                            $field,
+                            NovaRequest $request,
+                            FormData $formData
+                        ) use ($templateName) {
+                            if ($formData->template === $templateName) {
+                                $field->show();
+                            }
+                        })
                 );
             })
             ->all();

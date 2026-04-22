@@ -232,8 +232,5 @@ Thanks! 🌸
 This plugin utilizes the following packages:
 
 - [Whitecube/NovaFlexibleContent](https://github.com/whitecube/nova-flexible-content)
-- [AndreasGJ/seo-meta-field-nova](https://github.com/AndreasGJ/seo-meta-field-nova)
 - [Axn/laravel-eloquent-authorable](https://github.com/AXN-Informatique/laravel-eloquent-authorable)
 - [Outl1ne/MenuBuilder](https://github.com/outl1ne/nova-menu-builder)
-- [Alexwenzel/NovaDependencyContainer](https://github.com/alexwenzel/nova-dependency-container/)
-- [Eminiarts/nova-tabs](https://github.com/eminiarts/nova-tabs)

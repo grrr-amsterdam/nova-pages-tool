@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 5.0.0
+
+- Add support for Laravel Nova 5.
+- Internalise the abandoned `SeoMeta` package under the `Grrr` namespace. 
+- Remove support for Laravel Nova 4.
+
 ## Version 4.3.x
 
 - Update dependencies

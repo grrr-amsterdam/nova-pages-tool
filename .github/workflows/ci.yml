@@ -5,8 +5,22 @@ on:
 
 jobs:
   tests:
-    name: Tests
+    name: Tests (Laravel ${{ matrix.laravel }})
     runs-on: ubuntu-22.04
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # Composer blocks Laravel 11 because of security advisories that are
+          # only fixed in Laravel 12.
+          - laravel: 11
+            php: 8.2
+            testbench: ^9.0
+            composer-flags: --no-security-blocking
+          - laravel: 12
+            php: 8.4
+            testbench: ^10.0
 
     services:
       mysql:
@@ -21,7 +35,7 @@ jobs:
     steps:
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.4
+          php-version: ${{ matrix.php }}
         env:
           COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -35,8 +49,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-          restore-keys: ${{ runner.os }}-composer-
+          key: ${{ runner.os }}-composer-laravel-${{ matrix.laravel }}
 
       - name: Validate Composer files
         run: composer validate --ansi
@@ -44,7 +57,8 @@ jobs:
       - name: Install PHP dependencies
         run: |
           composer config --ansi -- http-basic.nova.laravel.com "${{ secrets.NOVA_USERNAME }}" "${{ secrets.NOVA_PASSWORD }}"
-          composer install --prefer-dist --no-interaction --ansi
+          composer require --dev --no-update --ansi "orchestra/testbench:${{ matrix.testbench }}"
+          composer update --prefer-dist --no-interaction --ansi ${{ matrix.composer-flags }}
 
       - name: Run PHP tests
         run: composer test
@@ -59,7 +73,7 @@ jobs:
         uses: actions/upload-artifact@v4
         if: failure()
         with:
-          name: Laravel logs
+          name: Laravel ${{ matrix.laravel }} logs
           path: storage/logs/laravel.log
 
   prettier:

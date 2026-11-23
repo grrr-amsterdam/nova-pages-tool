@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use Axn\EloquentAuthorable\ServiceProvider as AuthorableServiceProvider;
 use Grrr\Pages\ToolServiceProvider;
 use Illuminate\Foundation\Testing\WithFaker;
 use Outl1ne\MenuBuilder\MenuBuilderServiceProvider;
@@ -24,7 +25,11 @@ abstract class TestCase extends BaseTestCase
 
     protected function getPackageProviders($app)
     {
-        return [ToolServiceProvider::class, MenuBuilderServiceProvider::class];
+        return [
+            ToolServiceProvider::class,
+            MenuBuilderServiceProvider::class,
+            AuthorableServiceProvider::class,
+        ];
     }
 
     protected function defineDatabaseMigrations()

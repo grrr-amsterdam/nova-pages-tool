@@ -39,7 +39,7 @@
     }
   },
   "require-dev": {
-    "orchestra/testbench": "^9.0",
+    "orchestra/testbench": "^10.0",
     "phpunit/phpunit": "^10.0|^11.0"
   },
   "config": {

@@ -7,11 +7,12 @@ use Grrr\Pages\Models\PageTranslation;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Schema;
 use Outl1ne\MenuBuilder\Models\MenuItem;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\Unit\TestCase;
 
 class PageTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function table_has_expected_columns(): void
     {
         $expectedColumns = [
@@ -30,7 +31,7 @@ class PageTest extends TestCase
         );
     }
 
-    /** @test */
+    #[Test]
     public function page_gets_composed_url(): void
     {
         $parent = Page::factory()->make(['slug' => '']);
@@ -51,7 +52,7 @@ class PageTest extends TestCase
         $this->assertSame($grandchild->url, '/services/web-design');
     }
 
-    /** @test */
+    #[Test]
     public function page_url_will_adapt_to_changing_parent(): void
     {
         $parent1 = Page::factory()->make(['slug' => 'services']);
@@ -81,7 +82,7 @@ class PageTest extends TestCase
         $this->assertSame($child->url, '/stuff/web-design');
     }
 
-    /** @test */
+    #[Test]
     public function page_accepts_metadata(): void
     {
         $page = Page::factory()->make(['slug' => 'web-design']);
@@ -105,7 +106,7 @@ class PageTest extends TestCase
         $this->assertInstanceOf(Collection::class, $page->translations);
     }
 
-    /** @test */
+    #[Test]
     public function you_can_add_a_translation(): void
     {
         $pageEn = Page::factory()->create(['language' => 'en']);
@@ -126,9 +127,7 @@ class PageTest extends TestCase
         $this->assertTrue($pageEn->is($pageNl->translations->first()));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function deleting_a_page_will_delete_menu_items(): void
     {
         // Prepare pages
@@ -178,7 +177,7 @@ class PageTest extends TestCase
         $this->assertCount(0, $menuItems);
     }
 
-    /** @test */
+    #[Test]
     public function translations_should_stay_in_sync(): void
     {
         $pageEn = Page::factory()->create(['language' => 'en']);
@@ -196,7 +195,7 @@ class PageTest extends TestCase
         $this->assertCount(0, $pageNl->translations);
     }
 
-    /** @test */
+    #[Test]
     public function translations_will_be_deleted_when_relations_are_removed(): void
     {
         $pageEn = Page::factory()->create(['language' => 'en']);

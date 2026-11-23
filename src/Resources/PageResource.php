@@ -443,17 +443,25 @@ class PageResource extends Resource
     /**
      * Create dependent fields for every template that offers them.
      * These will become visible in the form after switching templates.
+     *
+     * When multiple templates share fields with the same attribute, the
+     * field is registered once and shown for all of those templates:
+     * registering the same attribute more than once breaks Nova 5's
+     * dependent-field synchronization (fields disappear or render twice
+     * after switching templates).
      */
     protected function getTemplateDependentFields(): array
     {
-        return collect(config('nova-pages-tool.templates'))
+        $registered = [];
+
+        collect(config('nova-pages-tool.templates'))
             ->filter(
                 fn(string $templateName) => method_exists(
                     $this,
                     'fieldsFor' . Str::studly($templateName)
                 )
             )
-            ->flatMap(function (string $templateName) {
+            ->each(function (string $templateName) use (&$registered) {
                 $method = 'fieldsFor' . Str::studly($templateName);
                 $fields = $this->$method();
                 if (!is_array($fields)) {
@@ -461,20 +469,36 @@ class PageResource extends Resource
                         "Unable to deduce template-specific fields for method {$method}."
                     );
                 }
-                return collect($fields)->map(
-                    fn($field) => $field
-                        ->hide()
-                        ->dependsOn(['template'], function (
-                            $field,
-                            NovaRequest $request,
-                            FormData $formData
-                        ) use ($templateName) {
-                            if ($formData->template === $templateName) {
-                                $field->show();
-                            }
-                        })
-                );
+                foreach ($fields as $field) {
+                    if (isset($registered[$field->attribute])) {
+                        $registered[$field->attribute][
+                            'templates'
+                        ][] = $templateName;
+                        continue;
+                    }
+                    $registered[$field->attribute] = [
+                        'field' => $field,
+                        'templates' => [$templateName],
+                    ];
+                }
+            });
+
+        return collect($registered)
+            ->map(function (array $entry) {
+                $templates = $entry['templates'];
+                return $entry['field']
+                    ->hide()
+                    ->dependsOn(['template'], function (
+                        $field,
+                        NovaRequest $request,
+                        FormData $formData
+                    ) use ($templates) {
+                        if (in_array($formData->template, $templates, true)) {
+                            $field->show();
+                        }
+                    });
             })
+            ->values()
             ->all();
     }
 }

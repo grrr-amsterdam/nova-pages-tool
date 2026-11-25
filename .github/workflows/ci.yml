@@ -8,7 +8,7 @@ permissions:
 
 jobs:
   tests:
-    name: Tests (Laravel ${{ matrix.laravel }})
+    name: Tests (Laravel ${{ matrix.laravel }}, PHP ${{ matrix.php }})
     runs-on: ubuntu-22.04
 
     strategy:
@@ -19,6 +19,10 @@ jobs:
           # only fixed in Laravel 12.
           - laravel: 11
             php: 8.2
+            testbench: ^9.0
+            composer-flags: --no-security-blocking
+          - laravel: 11
+            php: 8.4
             testbench: ^9.0
             composer-flags: --no-security-blocking
           - laravel: 12
@@ -52,7 +56,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-laravel-${{ matrix.laravel }}
+          key: ${{ runner.os }}-composer-laravel-${{ matrix.laravel }}-php-${{ matrix.php }}
 
       - name: Validate Composer files
         run: composer validate --ansi
@@ -76,7 +80,7 @@ jobs:
         uses: actions/upload-artifact@v4
         if: failure()
         with:
-          name: Laravel ${{ matrix.laravel }} logs
+          name: Laravel ${{ matrix.laravel }} PHP ${{ matrix.php }} logs
           path: storage/logs/laravel.log
 
   prettier:

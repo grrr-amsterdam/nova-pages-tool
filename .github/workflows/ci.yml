@@ -3,6 +3,9 @@ name: CI
 on:
   push:
 
+permissions:
+  contents: read
+
 jobs:
   tests:
     name: Tests (Laravel ${{ matrix.laravel }})

@@ -15,6 +15,11 @@ You can easily extend this package's resource to modify its behavior.
 - GRRR is [hiring](https://grrr.nl/en/jobs/)
 - [@GRRRTech](https://twitter.com/grrrtech) tweets
 
+## Requirements
+
+- Laravel Nova 5
+- Laravel 11 with PHP 8.2 or higher, or Laravel 12 with PHP 8.4 or higher
+
 ## Installation
 
 ```

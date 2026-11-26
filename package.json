@@ -19,6 +19,6 @@
     "sass": "^1.50.0",
     "sass-loader": "^13.0.0",
     "vue-loader": "^16.8.3",
-    "webpack": "^5.88.0"
+    "webpack": "~5.105.4"
   }
 }

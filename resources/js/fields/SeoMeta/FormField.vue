@@ -66,13 +66,10 @@
         <label class="mb-1 block">{{ __('Follow') }}:</label>
         <SelectControl
           :id="field.name + '-follow'"
-          :selected="value.follow_type"
+          v-model="value.follow_type"
           class="w-full"
           :options="followOptions"
-          @change="
-            value.follow_type = $event;
-            setHasChanged();
-          "
+          @selected="setHasChanged()"
         >
           <option value selected>
             {{ __('Choose an option') }}

@@ -4,6 +4,7 @@ namespace Grrr\Pages\Fields;
 
 use Grrr\Pages\Models\SeoMetaItem;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\ValidationException;
 use Laravel\Nova\Fields\Field;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
@@ -131,12 +132,21 @@ class SeoMeta extends Field
             is_string($request[$requestAttribute])
         ) {
             $value = json_decode($request[$requestAttribute], true);
+            $followType = $value['follow_type'] ?? null;
+
+            // The column holds plain text. Anything else cannot be stored and
+            // would otherwise fail in the query instead of in the form.
+            if (!is_null($followType) && !is_string($followType)) {
+                throw ValidationException::withMessages([
+                    $requestAttribute => 'The follow type must be a string.',
+                ]);
+            }
 
             $relationship->fill([
                 'title' => $value['title'] ?? null,
                 'description' => $value['description'] ?? null,
                 'keywords' => $value['keywords'] ?? null,
-                'follow_type' => $value['follow_type'] ?? null,
+                'follow_type' => $followType,
                 'params' => [
                     'title_format' => $model->getSeoTitleFormatter(),
                     'canonical_links' =>

@@ -47,5 +47,6 @@ return [
     'validation' => [
         'uniqueSlug' =>
             'This slug is not unique — it already exists at this level. Choose another slug, or change to another parent page.',
+        'followType' => 'Choose one of the available follow options.',
     ],
 ];

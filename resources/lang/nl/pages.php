@@ -47,5 +47,6 @@ return [
     'validation' => [
         'uniqueSlug' =>
             'De slug is niet uniek — hij bestaat al op dit niveau. Kies een andere slug, of een andere bovenliggende pagina.',
+        'followType' => 'Kies een van de beschikbare follow-opties.',
     ],
 ];

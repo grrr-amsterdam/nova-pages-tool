@@ -38,17 +38,42 @@ class SeoMetaTest extends TestCase
     }
 
     #[Test]
+    public function empty_follow_type_is_stored_as_null(): void
+    {
+        $page = $this->createPage();
+
+        $this->fillSeoMeta($page, ['follow_type' => '']);
+
+        $this->assertDatabaseHas('seo_meta', [
+            'seo_metaable_id' => $page->id,
+            'follow_type' => null,
+        ]);
+    }
+
+    #[Test]
     public function follow_type_that_is_not_plain_text_is_rejected(): void
+    {
+        $this->assertFollowTypeIsRejected(['isTrusted' => false]);
+    }
+
+    #[Test]
+    public function follow_type_that_is_not_an_option_is_rejected(): void
+    {
+        $this->assertFollowTypeIsRejected('follow, please');
+    }
+
+    private function assertFollowTypeIsRejected(mixed $followType): void
     {
         $page = $this->createPage();
 
         try {
-            $this->fillSeoMeta($page, [
-                'follow_type' => ['isTrusted' => false],
-            ]);
+            $this->fillSeoMeta($page, ['follow_type' => $followType]);
             $this->fail('Expected a validation exception.');
         } catch (ValidationException $exception) {
-            $this->assertArrayHasKey('seo_meta', $exception->errors());
+            $this->assertSame(
+                ['seo_meta' => [__('pages::pages.validation.followType')]],
+                $exception->errors()
+            );
         }
 
         $this->assertDatabaseMissing('seo_meta', [

@@ -133,12 +133,24 @@ class SeoMeta extends Field
         ) {
             $value = json_decode($request[$requestAttribute], true);
             $followType = $value['follow_type'] ?? null;
+            if ($followType === '') {
+                $followType = null;
+            }
 
-            // The column holds plain text. Anything else cannot be stored and
-            // would otherwise fail in the query instead of in the form.
-            if (!is_null($followType) && !is_string($followType)) {
+            // Only the configured options may be stored. Anything else would
+            // end up in the robots tag, or, when it is not plain text, fail in
+            // the query instead of in the form.
+            $followTypeOptions = array_keys(
+                config('seo.follow_type_options', [])
+            );
+            if (
+                !is_null($followType) &&
+                !in_array($followType, $followTypeOptions, true)
+            ) {
                 throw ValidationException::withMessages([
-                    $requestAttribute => 'The follow type must be a string.',
+                    $requestAttribute => __(
+                        'pages::pages.validation.followType'
+                    ),
                 ]);
             }
 

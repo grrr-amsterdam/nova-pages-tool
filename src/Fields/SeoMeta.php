@@ -4,6 +4,7 @@ namespace Grrr\Pages\Fields;
 
 use Grrr\Pages\Models\SeoMetaItem;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\ValidationException;
 use Laravel\Nova\Fields\Field;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
@@ -131,12 +132,33 @@ class SeoMeta extends Field
             is_string($request[$requestAttribute])
         ) {
             $value = json_decode($request[$requestAttribute], true);
+            $followType = $value['follow_type'] ?? null;
+            if ($followType === '') {
+                $followType = null;
+            }
+
+            // Only the configured options may be stored. Anything else would
+            // end up in the robots tag, or, when it is not plain text, fail in
+            // the query instead of in the form.
+            $followTypeOptions = array_keys(
+                config('seo.follow_type_options', [])
+            );
+            if (
+                !is_null($followType) &&
+                !in_array($followType, $followTypeOptions, true)
+            ) {
+                throw ValidationException::withMessages([
+                    $requestAttribute => __(
+                        'pages::pages.validation.followType'
+                    ),
+                ]);
+            }
 
             $relationship->fill([
                 'title' => $value['title'] ?? null,
                 'description' => $value['description'] ?? null,
                 'keywords' => $value['keywords'] ?? null,
-                'follow_type' => $value['follow_type'] ?? null,
+                'follow_type' => $followType,
                 'params' => [
                     'title_format' => $model->getSeoTitleFormatter(),
                     'canonical_links' =>
